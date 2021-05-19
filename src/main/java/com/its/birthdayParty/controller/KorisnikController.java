@@ -17,9 +17,14 @@ public class KorisnikController {
 	private KorisnikService korisnikService;
 	
 	@GetMapping("/")
+	public String homePage() {
+		return "index";
+	}
+	
+	@GetMapping("/show")
 	public String viewShow(Model model) {
 		model.addAttribute("listKorisniks",korisnikService.getAllKorisniks());
-		return "index";
+		return "showKorisniks";
 	}
 	
 	@GetMapping("/showRegistration")
