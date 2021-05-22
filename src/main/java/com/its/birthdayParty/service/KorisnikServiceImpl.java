@@ -24,4 +24,9 @@ public class KorisnikServiceImpl implements KorisnikService{
 		this.korisnikRepository.save(korisnik);
 	}
 
+	@Override
+	public Korisnik login(String email, String password) {
+		return korisnikRepository.getKorisnikByEmailPassword(email, password);
+	}
+
 }
