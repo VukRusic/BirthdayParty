@@ -25,16 +25,11 @@ public class AuthControler {
 	@GetMapping("/")
 	public String homePage(Model model, HttpServletRequest request) {
 		
-		model.addAttribute("listAgencijes", agencijaService.getAllAgencijas());
+		model.addAttribute("agencije", agencijaService.getAllAgencijas());
 		
 		Korisnik korisnik = new Korisnik();
 		model.addAttribute("korisnik",korisnik);
-		
-		/*
-		 * Korisnik user = (Korisnik)request.getSession().getAttribute("user"); if(user
-		 * == null) { user = new Korisnik(); request.getSession().setAttribute("user",
-		 * user); } request.getSession().setAttribute("user", user);
-		 */
+	
 		return "index";
 	}
 	
@@ -47,9 +42,10 @@ public class AuthControler {
 	@PostMapping("/LogIn")
 	public String LogIn(@RequestParam String email, @RequestParam String sifra,HttpServletRequest request) {
 		Korisnik korisnik = korisnikService.login(email, sifra);
+		
 		if(korisnik != null) {
 		request.getSession().setAttribute("user", korisnik);
-		return "redirect:/";
+			return "redirect:/";
 		} else {
 			return "redirect:/";
 		}

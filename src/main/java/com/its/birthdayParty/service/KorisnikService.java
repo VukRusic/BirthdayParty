@@ -8,4 +8,6 @@ public interface KorisnikService {
 	List<Korisnik> getAllKorisniks();
 	void register(Korisnik korisnik);
 	Korisnik login(String email, String password);
+	void update(Korisnik korisnik);
+	Korisnik getKorisnikById(Integer id);
 }

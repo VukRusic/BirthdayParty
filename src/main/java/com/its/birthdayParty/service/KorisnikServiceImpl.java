@@ -29,4 +29,18 @@ public class KorisnikServiceImpl implements KorisnikService{
 		return korisnikRepository.getKorisnikByEmailPassword(email, password);
 	}
 
+	@Override
+	public void update(Korisnik korisnik) {
+		Korisnik updateKorisnik = korisnikRepository.getOne(korisnik.getId());
+		updateKorisnik.setIme(korisnik.getIme());
+		updateKorisnik.setPrezime(korisnik.getPrezime());
+		updateKorisnik.setSifra(korisnik.getSifra());
+		this.korisnikRepository.save(updateKorisnik);
+	}
+
+	@Override
+	public Korisnik getKorisnikById(Integer id) {
+		return korisnikRepository.getOne(id);
+	}
+
 }
