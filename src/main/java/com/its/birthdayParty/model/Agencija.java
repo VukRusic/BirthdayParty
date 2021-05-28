@@ -39,6 +39,28 @@ public class Agencija {
 	@Column(name = "status")
 	private String status;
 	
+	@Column(name = "telefon")
+	private String telefon;
+	
+	@Column(name = "email")
+	private String email;
+
+	public String getTelefon() {
+		return telefon;
+	}
+
+	public void setTelefon(String telefon) {
+		this.telefon = telefon;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
 	public String getStatus() {
 		return status;
 	}

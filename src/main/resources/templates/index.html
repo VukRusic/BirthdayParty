@@ -11,7 +11,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!--====== Favicon Icon ======-->
-<link rel="shortcut icon" href="/images/favicon.png" type="image/png">
+<link rel="icon" href="/images/balloons.jpg" type="image/jpg">
 
 <!--====== Magnific Popup CSS ======-->
 <link rel="stylesheet" href="/css/magnific-popup.css">
@@ -104,7 +104,7 @@
 							</ul>
 							<ul th:unless="${session.user == null}">
 								<li>
-									<a type="button" class="solid" onClick="location.href='showKorisnik'">
+									<a type="button" class="solid" th:href="@{/showKorisnik}">
 										<i class="far fa-user-circle"></i>
 										poeni:
 										<span th:text="${session.user.poeni}"></span>
@@ -112,7 +112,7 @@
 								</li>
 								<li>
 									<form th:action="@{/LogOut}" method="post">
-										<a type="button" class="solid" onClick="location.href='LogOut'">Odjavi se</a>
+										<a type="button" class="solid" th:href="@{/LogOut}">Odjavi se</a>
 									</form>
 								</li>
 							</ul>
@@ -128,6 +128,8 @@
 
 	<!--====== NAVBAR TWO PART ENDS ======-->
 
+	<!--====== LOGIN/REGISTRATION MODAL START ======-->
+	
 	<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -175,6 +177,8 @@
 			</div>
 		</div>
 	</div>
+	
+	<!--====== LOGIN/REGISTRATION MODAL ENDS ======-->
 
 	<!--====== SLIDER PART START ======-->
 
@@ -371,26 +375,6 @@
 
 	<!--====== FEATRES TWO PART ENDS ======-->
 
-	<!--====== PORTFOLIO PART START ======-->
-
-	<!-- <section id="portfolio" class="portfolio-area portfolio-four pb-100">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-md-12">
-                    <div class="section-title text-center pb-10">
-                        <h3 class="title">Hohoho</span></h3>
-                        <p class="text">Please, purchase full version to get all pages and features</p>
-                        <div class="light-rounded-buttons mt-30">
-                        <a href="https://rebrand.ly/smash-ud" rel="nofollow" class="main-btn light-rounded-two">Purchase Now</a>
-                        </div>
-                    </div> section title
-                </div>
-            </div> row
-        </div> container
-    </section> -->
-
-	<!--====== PORTFOLIO PART ENDS ======-->
-
 	<!--====== PRINICNG START ======-->
 
 	<section id="portfolio" class="pricing-area ">
@@ -428,7 +412,7 @@
 								</ul>
 							</div>
 							<div class="pricing-btn rounded-buttons text-center">
-								<a class="main-btn rounded-one" href="#">Paketi</a>
+								<a class="main-btn rounded-one" th:href="@{${'/showAgencija/' + agencija.Id}}">Paketi</a>
 							</div>
 						</div>
 						<!-- pricing style one -->

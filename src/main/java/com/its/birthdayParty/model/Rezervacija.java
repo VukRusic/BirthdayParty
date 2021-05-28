@@ -19,50 +19,57 @@ public class Rezervacija {
 	private Integer Id;
 	
 	@Column(name="proslava_id")
-	private Integer proslavaId;
+	private Integer proslava_id;
 	
 	@Column(name="korisnik_id")
-	private Integer korisnikId;
+	private Integer korisnik_id;
 	
 	@Column(name="ukupna_cena")
-	private Float ukupnaCena;
+	private Float ukupna_cena;
 	
 	@Column(name="datum")
 	private Date datum;
 	
 	@Column(name = "vreme")
 	private String vreme;
+	
+	@Column(name = "status")
+	private String status;
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
 
 	public Integer getId() {
 		return Id;
 	}
 
-	public void setId(Integer id) {
-		Id = id;
+	public Integer getProslava_id() {
+		return proslava_id;
 	}
 
-	public Integer getProslavaId() {
-		return proslavaId;
+	public void setProslava_id(Integer proslava_id) {
+		this.proslava_id = proslava_id;
 	}
 
-	public void setProslavaId(Integer proslavaId) {
-		this.proslavaId = proslavaId;
+	public Integer getKorisnik_id() {
+		return korisnik_id;
 	}
 
-	public Integer getKorisnikId() {
-		return korisnikId;
+	public void setKorisnik_id(Integer korisnik_id) {
+		this.korisnik_id = korisnik_id;
 	}
 
-	public void setKorisnikId(Integer korisnikId) {
-		this.korisnikId = korisnikId;
+	public Float getUkupna_cena() {
+		return ukupna_cena;
 	}
 
-	public Float getUkupnaCena() {
-		return ukupnaCena;
-	}
-
-	public void setUkupnaCena(Float ukupnaCena) {
-		this.ukupnaCena = ukupnaCena;
+	public void setUkupna_cena(Float ukupna_cena) {
+		this.ukupna_cena = ukupna_cena;
 	}
 
 	public Date getDatum() {
@@ -80,5 +87,11 @@ public class Rezervacija {
 	public void setVreme(String vreme) {
 		this.vreme = vreme;
 	}
+
+	public void setId(Integer id) {
+		Id = id;
+	}
+
+	
 	
 }

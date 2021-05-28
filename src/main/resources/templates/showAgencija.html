@@ -34,6 +34,12 @@
 <!-- ===== Font awsome ===== -->
 <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
 
+<style th:inline="text">
+	#agencijaPanel {
+		background-image: url('[[@{${'/images/agencije/' + agencija.slika + '/main.jpg'}}]]');
+	}
+</style>
+
 </head>
 
 <body>
@@ -76,11 +82,10 @@
 
 						<div class="collapse navbar-collapse sub-menu-bar" id="navbarTwo">
 							<ul class="navbar-nav m-auto">
-								<li class="nav-item active"><a class="page-scroll" th:href="@{/}">Početna</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#services">Usluge</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#portfolio">Ponuda</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#about">O nama</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#contact">Contact</a></li>
+								<li class="nav-item"><a class="page-scroll" th:href="@{/}">Nazad na početnu</a></li>
+								<li class="nav-item"><a class="page-scroll" href="#agencijaPanel">Informacije</a></li>
+								<li class="nav-item"><a class="page-scroll" href="#paketi">Ponuda</a></li>
+								<li class="nav-item"><a class="page-scroll" href="#contact">Kontakt</a></li>
 							</ul>
 						</div>
 
@@ -89,12 +94,11 @@
 								<li><a type="button" class="solid" data-toggle="modal" data-target="#LoginModal">Prijavi se</a></li>
 							</ul>
 							<ul th:unless="${session.user == null}">
-								<li><a type="button" class="solid" onClick="location.href='showKorisnik'"> <i class="far fa-user-circle"></i> poeni: <span
-										th:text="${session.user.poeni}"></span>
+								<li><a type="button" class="solid" th:href="@{/showKorisnik}"> <i class="far fa-user-circle"></i> poeni: <span th:text="${session.user.poeni}"></span>
 								</a></li>
 								<li>
 									<form th:action="@{/LogOut}" method="post">
-										<a type="button" class="solid" onClick="location.href='LogOut'">Odjavi se</a>
+										<a type="button" class="solid" th:href="@{/LogOut}">Odjavi se</a>
 									</form>
 								</li>
 							</ul>
@@ -110,13 +114,65 @@
 
 	<!--====== NAVBAR TWO PART ENDS ======-->
 	
-	<!--====== STATUS MODAL START ====== -->
+	<!--====== LOGIN/REGISTRATION MODAL START ======-->
 	
-	<div class="modal fade" id="StatusModal" tabindex="-1" role="dialog">
+	<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h5>Status rezervacije</h5>
+					<h5>Unesite vaše podatke</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div>
+							<span class="toggle-title">Registracija</span>
+							<div class="toggle">
+								<i class="fas fa-user-edit"></i>
+							</div>
+						</div>
+						<div class="form">
+							<form th:action="@{/LogIn}" th:object="${korisnik}" th:method="post">
+								<input type="text" th:field="*{email}" placeholder="Email" />
+								<input type="password" th:field="*{sifra}" placeholder="Lozinka" />
+								<button type="submit">Prijavi se</button>
+							</form>
+						</div>
+						<div class="form">
+							<h2>Regitruj novi nalog</h2>
+							<form th:action="@{/registerKorisnik}" th:object="${korisnik}" th:method="post">
+								<input placeholder="Ime" type="text" th:field="*{ime}">
+								<input placeholder="Prezime" type="text" th:field="*{prezime}">
+								<input type="text" placeholder="Email" th:field="*{email}">
+								<input type="password" placeholder="Lozinka" th:field="*{sifra}">
+								<label>Tip naloga:</label>
+								<div class="type">
+									Klijent
+									<input type="radio" value="klijent" th:field="*{tip}" checked>
+									Menadžer
+									<input type="radio" value="menadzer" th:field="*{tip}">
+								</div>
+								<br>
+								<button type="submit">Registruj se</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== LOGIN/REGISTRATION MODAL ENDS ======-->
+	
+	<!--====== RESERVATION MODAL START ======-->
+	
+	<div class="modal fade" id="ReservationModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Rezervacija proslave</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						<span aria-hidden="true">&times;</span>
 					</button>
@@ -125,107 +181,103 @@
 					<div class="module form-module">
 						<div>
 						</div>
-						
+						<div class="form">
+							<form th:action="@{/reserve}" th:object="${rezervacija}" th:method="post">
+								<input type="hidden" th:field="*{proslava_id}"  id="proslavaId" value="">
+								<input type="date" th:field="*{datum}" placeholder="Datum" required="required">
+								<input type="time" th:field="*{vreme}" placeholder="Vreme početka proslave" required="required">
+								<label>Unesite broj dece na proslavi</label><br>
+								<input id="count" type="number" min="1" max="99">
+								<label>  ukupna cena: </label>
+								<input id="sum" type="text" placeholder="Ukupna cena" th:field="*{ukupna_cena}" value=""  readonly>
+								<button type="submit">Pošalji rezervaciju</button>
+							</form>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	
-	<!--====== STATUS MODAL ENDS ====== -->
+	<!--====== RESERVATION MODAL ENDS ======-->
 	
 
 	<!--====== FEATRES TWO PART START ======-->
 
-	<section id="userPanel" class="features-area">
+	<section id="agencijaPanel" class="features-area">
+	</section>
+
+	<!--====== FEATRES TWO PART ENDS ======-->
+	
+	<!--====== ABOUT PART START ======-->
+
+	<section id="aboutAgencija" class="about-area">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div id="agencijaInfo" class="col-lg-6 col-md-10">
+					<div class="section-title text-center pb-10">
+						<h3 id="infoTitle" class="title">O nama</h3>
+						<p id="infoText" th:text="${agencija.opis}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!--====== ABOUT PART ENDS ======-->
+
+	<!--====== PRINICNG START ======-->
+
+	<section id="paketi" class="pricing-area ">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-6 col-md-10">
-					<div class="section-title text-center pb-10">
-						<h3 class="title">Vaš nalog</h3>
-						<p class="text">Sve informacije o ovam nalogu, kao i rezervacijama možete da pronađete ovde.</p>
+					<div class="section-title text-center pb-25">
+						<h3 class="title">Paketi koje nudimo</h3>
+						<p class="text">Svi rođendanski paketi koje nudimo izlistani su ovde. Ukoliko imate bilo kakva dodatna pitanja vezano za rezervaciju ili paketima slobodno nas
+							kontaktirajte.</p>
 					</div>
-					<!-- <div class="alert alert-info" role="alert" th:if="${session.message != null}">
-  						<p th:text="${session.message}"></p>
-					</div> -->
-					<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${session.message != null}">
-						<p th:text="${session.message}"></p>
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
-					</div>
-					<!-- row -->
 				</div>
 			</div>
-			<!-- row -->
 			<div class="row justify-content-center">
-				<div class="col-lg-4 col-md-7 col-sm-9">
-					<div class="single-features mt-40">
-						<div class="features-title-icon d-flex justify-content-between">
-							<h4 class="features-title">
-								<a> <i class="fas fa-user fa-2x"></i>
-								</a>
-							</h4>
-						</div>
-						<div class="features-content">
-							<div class="form">
-								<form th:action="@{/updateKorisnik}" th:object="${korisnik}" th:method="post" class="update">
-									<input type="hidden" th:field="*{id}" th:value="${korisnik.Id}"> <label>Ime</label> <input placeholder="Ime" type="text" th:field="*{ime}"> <br>
-									<label>Prezime</label> <input placeholder="Prezime" type="text" th:field="*{prezime}"> <br> <label>Email</label> <input type="text"
-										placeholder="Email" th:field="*{email}" readonly> <br> <label>Sifra</label> <input type="text" placeholder="Lozinka" th:field="*{sifra}"> <br>
-									<label>Tip naloga: </label> <span th:text="${korisnik.tip}"></span> <br> <label>Broj poena: </label> <span th:text="${korisnik.poeni}"></span> <br>
-									<button type="submit" class="btn btn-primary">Ažuriraj podatke</button>
-								</form>
+				<div class="offers" th:each="proslava: ${proslave}" th:object="${proslava}">
+					<div class="col-lg-4 col-md-7 col-sm-9">
+						<div class="pricing-style mt-30">
+							<div class="pricing-icon text-center">
+								<img th:src="@{${'/images/agencije/' + agencija.slika + '/' + proslava.slika + '.jpg'}}" alt="">
+							</div>
+							<div class="pricing-header text-center">
+								<h5 class="sub-title">
+									<span th:text="${proslava.nazivProslave}"></span>
+								</h5>
+								<p class="month">
+									<span class="price" th:text="${proslava.cena}"></span>din /po detetu
+								</p>
+							</div>
+							<div class="pricing-list">
+								<ul>
+									<li><i class="lni lni-check-mark-circle"></i><span th:text="${proslava.opisProslave}"></span></li>
+
+								</ul>
+							</div>
+							<div class="pricing-btn rounded-buttons text-center" th:if="${session.user != null}">
+								<button id="reserveBtn" class="main-btn rounded-one" th:data-price="${proslava.cena}" th:value="${proslava.id}" data-toggle="modal" data-target="#ReservationModal">Rezerviši</button>
+							</div>
+							<div class="pricing-btn rounded-buttons text-center" th:unless="${session.user != null}">
+								<button class="main-btn rounded-one" data-toggle="modal" data-target="#LoginModal">Rezerviši</button>
 							</div>
 						</div>
 					</div>
-					<!-- single features -->
 				</div>
-				<div class="col-lg-4 col-md-7 col-sm-9">
-					<div id="reservations" class="single-features mt-40">
-						<div class="features-title-icon d-flex justify-content-between">
-							<h4 class="features-title">
-								<a>Vaše rezervacije:</a>
-							</h4>
-						</div>
-						<div class="features-content">
-							<div th:if="${rezervacije.size() > 0}">
-							<table  class="table table-striped">
-								<thead>
-									<tr>
-										<th>Datum</th>
-										<th>Agencija</th>
-										<th>Proslava</th>
-										<th>Cena</th>
-										<th>Status</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="rezervacija: ${rezervacije}" th:object="${rezervacija}" th:if="${rezervacija.status != null}">
-										<td th:text="${rezervacija.datum}"></td>
-										<td th:text="${agencija.getAgencijaNazivById(rezervacija.proslava_id)}"></td>
-										<td th:text="${proslava.getProslavaNazivById(rezervacija.proslava_id)}"></td>
-										<td th:text="${rezervacija.ukupna_cena}"></td>
-										<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#StatusModal" th:text="${rezervacija.status}"></button></td>
-									</tr>
-								</tbody>
-							</table>
-							<p id="status-help">*klikom na status možete da saznate dodatne informacije o vašoj rezervaciji</p>
-							</div>
-							<div th:unless="${rezervacije.size() > 0}">
-								<p>Nemate rezervisane proslave</p>
-							</div>
-							<!-- <a class="features-btn">Pogledaj sve</a> -->
-						</div>
-					</div>
-					<!-- single features -->
-				</div>
+				<!-- row -->
 			</div>
 		</div>
 		<!-- container -->
 	</section>
 
-	<!--====== FEATRES TWO PART ENDS ======-->
+	<!--====== PRINICNG ENDS ======-->
+
+
 
 	<!--====== CONTACT PART START ======-->
 
@@ -234,8 +286,8 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-6 col-md-10">
 					<div class="section-title text-center pb-30">
-						<h3 class="title">Contact</h3>
-						<p class="text">Stop wasting time and money designing and managing a website that doesn’t get results. Happiness guaranteed!</p>
+						<h3 class="title">Kontakt</h3>
+						<p class="text">Sve informacije o nama, kontakt telefon i gde se nalazimo možete pronaći ovde.</p>
 					</div>
 					<!-- section title -->
 				</div>
@@ -259,9 +311,7 @@
 								<i class="lni lni-map-marker"></i>
 							</div>
 							<div class="contact-info-content media-body">
-								<p class="text">
-									Elizabeth St, Melbourne <br> 1202 Australia.
-								</p>
+								<p class="text" th:text="${agencija.lokacija}"></p>
 							</div>
 						</div>
 						<!-- single contact info -->
@@ -272,8 +322,7 @@
 								<i class="lni lni-envelope"></i>
 							</div>
 							<div class="contact-info-content media-body">
-								<p class="text">hello@ayroui.com</p>
-								<p class="text">support@uideck.com</p>
+								<p class="text" th:text="${agencija.email}"></p>
 							</div>
 						</div>
 						<!-- single contact info -->
@@ -284,8 +333,7 @@
 								<i class="lni lni-phone"></i>
 							</div>
 							<div class="contact-info-content media-body">
-								<p class="text">+333 789-321-654</p>
-								<p class="text">+333 985-458-609</p>
+								<p class="text" th:text="${agencija.telefon}"></p>
 							</div>
 						</div>
 						<!-- single contact info -->
@@ -293,6 +341,7 @@
 				</div>
 				<!-- row -->
 			</div>
+			<!-- contact info -->
 		</div>
 		<!-- container -->
 	</section>
@@ -380,6 +429,19 @@
 
 	<!--====== Main js ======-->
 	<script src="/js/main.js"></script>
+	
+	<script type="text/javascript">
+	$('#reserveBtn').click(function(){
+			var proslavaId = $(this).attr('value');
+			var proslavaCena = $(this).attr('data-price');
+			$('#proslavaId').val(proslavaId);
+		});
+	$("#count").click(function(){
+		var sum = parseInt($(this).val()) * $('#reserveBtn').attr('data-price');
+		$('#sum').val(sum);
+	});
+	
+	</script>
 
 </body>
 

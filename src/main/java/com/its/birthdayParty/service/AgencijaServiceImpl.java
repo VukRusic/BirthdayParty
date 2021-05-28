@@ -24,4 +24,14 @@ public class AgencijaServiceImpl implements AgencijaService{
 		return agencijaRepository.getAgencija(naziv);
 	}
 
+	@Override
+	public Agencija getAgencijaById(Integer id) {
+		return agencijaRepository.getOne(id);
+	}
+
+	@Override
+	public String getAgencijaNazivById(Integer id) {
+		return agencijaRepository.getAgencijaNaziv(id);
+	}
+
 }

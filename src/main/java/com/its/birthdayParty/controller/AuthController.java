@@ -14,7 +14,7 @@ import com.its.birthdayParty.service.AgencijaService;
 import com.its.birthdayParty.service.KorisnikService;
 
 @Controller
-public class AuthControler {
+public class AuthController {
 	
 	@Autowired
 	KorisnikService korisnikService;
@@ -23,10 +23,9 @@ public class AuthControler {
 	private AgencijaService agencijaService;
 	
 	@GetMapping("/")
-	public String homePage(Model model, HttpServletRequest request) {
+	public String homePage(Model model) {
 		
 		model.addAttribute("agencije", agencijaService.getAllAgencijas());
-		
 		Korisnik korisnik = new Korisnik();
 		model.addAttribute("korisnik",korisnik);
 	
@@ -45,7 +44,11 @@ public class AuthControler {
 		
 		if(korisnik != null) {
 		request.getSession().setAttribute("user", korisnik);
-			return "redirect:/";
+			if(korisnik.getTip() == "klijent") {
+				return "redirect:/";
+			} else {
+				return "redirect:/menadzer";
+			}
 		} else {
 			return "redirect:/";
 		}

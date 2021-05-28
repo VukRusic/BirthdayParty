@@ -21,5 +21,10 @@ public class ProslavaServiceImpl implements ProslavaService{
 		
 		return proslave;
 	}
+
+	@Override
+	public String getProslavaNazivById(Integer id) {
+		return proslavaRepository.getProslavaNazivById(id);
+	}
 	
 }

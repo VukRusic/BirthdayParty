@@ -28,7 +28,7 @@ public class Proslava {
 	private Float cena;
 	
 	@Column(name="slika")
-	private String slka;
+	private String slika;
 
 	public int getId() {
 		return Id;
@@ -70,12 +70,12 @@ public class Proslava {
 		this.cena = cena;
 	}
 
-	public String getSlka() {
-		return slka;
+	public String getSlika() {
+		return slika;
 	}
 
-	public void setSlka(String slka) {
-		this.slka = slka;
+	public void setSlika(String slka) {
+		this.slika = slka;
 	}
 	
 }
