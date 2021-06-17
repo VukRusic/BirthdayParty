@@ -27,6 +27,9 @@ public class Rezervacija {
 	@Column(name="ukupna_cena")
 	private Float ukupna_cena;
 	
+	@Column(name="bonus_poeni")
+	private Integer bonus_poeni;
+	
 	@Column(name="datum")
 	private Date datum;
 	
@@ -90,6 +93,14 @@ public class Rezervacija {
 
 	public void setId(Integer id) {
 		Id = id;
+	}
+
+	public Integer getBonus_poeni() {
+		return bonus_poeni;
+	}
+
+	public void setBonus_poeni(Integer bonus_poeni) {
+		this.bonus_poeni = bonus_poeni;
 	}
 
 	

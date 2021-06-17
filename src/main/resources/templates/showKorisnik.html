@@ -76,7 +76,7 @@
 
 						<div class="collapse navbar-collapse sub-menu-bar" id="navbarTwo">
 							<ul class="navbar-nav m-auto">
-								<li class="nav-item active"><a class="page-scroll" th:href="@{/}">Početna</a></li>
+								<li class="nav-item active"><a class="page-scroll" th:href="@{/}">Nazad na početnu</a></li>
 								<li class="nav-item"><a class="page-scroll" href="#services">Usluge</a></li>
 								<li class="nav-item"><a class="page-scroll" href="#portfolio">Ponuda</a></li>
 								<li class="nav-item"><a class="page-scroll" href="#about">O nama</a></li>
@@ -170,11 +170,15 @@
 						<div class="features-content">
 							<div class="form">
 								<form th:action="@{/updateKorisnik}" th:object="${korisnik}" th:method="post" class="update">
-									<input type="hidden" th:field="*{id}" th:value="${korisnik.Id}"> <label>Ime</label> <input placeholder="Ime" type="text" th:field="*{ime}"> <br>
-									<label>Prezime</label> <input placeholder="Prezime" type="text" th:field="*{prezime}"> <br> <label>Email</label> <input type="text"
-										placeholder="Email" th:field="*{email}" readonly> <br> <label>Sifra</label> <input type="text" placeholder="Lozinka" th:field="*{sifra}"> <br>
+									<input type="hidden" th:field="*{id}" th:value="${korisnik.Id}"> 
+									<label>Ime</label> 
+									<input placeholder="Ime" type="text" th:field="*{ime}"> <br>
+									<label>Prezime</label> <input placeholder="Prezime" type="text" th:field="*{prezime}"> <br> 
+									<label>Email</label> <input type="text"
+										placeholder="Email" th:field="*{email}" readonly> <br> 
+									<label>Sifra</label> <input type="text" placeholder="Lozinka" th:field="*{sifra}"> <br>
 									<label>Tip naloga: </label> 
-									<input type="text" th:field="*{tip}" readonly="readonly" size="10"> <br> 
+									<span th:text="${korisnik.tip}"></span> <br> 
 									<label>Broj poena: </label> <span th:text="${korisnik.poeni}"></span> <br>
 									<button type="submit" class="btn btn-primary">Ažuriraj podatke</button>
 								</form>

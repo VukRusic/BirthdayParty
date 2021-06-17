@@ -27,6 +27,17 @@ public class Proslava {
 	@Column(name="cena")
 	private Float cena;
 	
+	@Column(name="poeni")
+	private Integer poeni;
+	
+	public Integer getPoeni() {
+		return poeni;
+	}
+
+	public void setPoeni(Integer poeni) {
+		this.poeni = poeni;
+	}
+
 	@Column(name="slika")
 	private String slika;
 

@@ -43,4 +43,9 @@ public class KorisnikServiceImpl implements KorisnikService{
 		return korisnikRepository.getOne(id);
 	}
 
+	@Override
+	public Korisnik getKorisnikByRezervacijaId(Integer id) {
+		return korisnikRepository.getKorisnikByRezervacijaId(id);
+	}
+
 }

@@ -88,6 +88,7 @@ public class KorisnikController {
 		Korisnik user = (Korisnik) request.getSession().getAttribute("user");
 		rezervacija.setKorisnik_id(user.getId());
 		rezervacija.setStatus("U procesu");
+		
 		rezervacijaService.makeReservation(rezervacija);
 		request.getSession().setAttribute("message", "Rezervacija je uspešno prosleđena i čeka dalje odobrenje od agencije. "
 				+ "Možete pratiti njen status na vašem portalu. Za sve dodatne informacije ili promene kontaktiraje nas.");

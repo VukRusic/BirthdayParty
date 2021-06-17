@@ -10,4 +10,5 @@ public interface KorisnikService {
 	Korisnik login(String email, String password);
 	void update(Korisnik korisnik);
 	Korisnik getKorisnikById(Integer id);
+	Korisnik getKorisnikByRezervacijaId(Integer id);
 }

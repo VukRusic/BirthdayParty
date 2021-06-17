@@ -154,12 +154,16 @@
 						<div class="pricing-icon text-center">
 							<img th:src="@{${'/images/agencije/' + agencija.slika + '/' + proslava.slika}}" alt="">
 						</div>
-							<div class="form">
+							<div id="updateForm" class="form">
 								<form id="updateProslava" th:action="@{/updateProslava}" th:method="post" th:object="${proslava}" class="update" enctype="multipart/form-data">
 									<input type="hidden" th:field="*{id}" th:value="${proslava.Id}"> 
-									<input placeholder="Naziv" th:field="*{nazivProslave}" type="text" th:value="${proslava.nazivProslave}" required="required"> 
+									<label id="update-label">Naziv</label>
+									<input placeholder="Naziv" th:field="*{nazivProslave}" type="text" th:value="${proslava.nazivProslave}" required="required">
+									<label id="update-label">Cena po detetu</label> 
 									<input type="text" placeholder="Cena po detetu" th:field="*{cena}" th:value="${proslava.cena}" required="required">
-									<textarea cols="45" rows="12" placeholder="Opis proslave" th:field="*{opisProslave}" th:text="${proslava.opisProslave}" required="required"></textarea>
+									<label id="update-label">Opis proslave</label>
+									<textarea cols="35" rows="12" placeholder="Opis proslave" th:field="*{opisProslave}" th:text="${proslava.opisProslave}" required="required"></textarea>
+									<label id="update-label">Slika proslave</label>
 									<input type="file" name="image" accept="image/png, image/jpeg"> <br>
 									<div class="pricing-btn rounded-buttons text-center">
 										<button type="submit" class="main-btn rounded-one">Ažuriraj</button>

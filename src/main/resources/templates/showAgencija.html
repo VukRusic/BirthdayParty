@@ -194,7 +194,8 @@
 						<div>
 						</div>
 						<div class="form">
-							<form th:action="@{/reserve}" th:object="${rezervacija}" th:method="post">
+							<form id="reserveForm" th:action="@{/reserve}" th:object="${rezervacija}" th:method="post">
+								<label>Po svakom detetu stičete <span id="points"></span> bonus poena!</label>
 								<input type="hidden" th:field="*{proslava_id}" id="proslavaId" value="">
 								<input id="proslavaCena" type="hidden"> 
 								<input type="date" th:field="*{datum}" placeholder="Datum" required="required">
@@ -203,6 +204,7 @@
 								<input id="count" type="number" min="1" max="99">
 								<label>  ukupna cena: </label>
 								<input id="sum" type="text" placeholder="Ukupna cena" th:field="*{ukupna_cena}" value=""  readonly>
+								<input id="bonus" type="hidden" th:field="*{bonus_poeni}" value="">
 								<button type="submit">Pošalji rezervaciju</button>
 							</form>
 						</div>
@@ -275,7 +277,7 @@
 							</div>
 							<div th:if="${session.user != null && session.user.tip!='menadzer'}">
 								<div class="pricing-btn rounded-buttons text-center" th:if="${session.user != null}">
-									<button class="main-btn rounded-one reserve" th:data-price="${proslava.cena}" th:value="${proslava.id}" data-toggle="modal" data-target="#ReservationModal">Rezerviši</button>
+									<button class="main-btn rounded-one reserve" th:data-price="${proslava.cena}" th:data-points="${proslava.poeni}" th:value="${proslava.id}" data-toggle="modal" data-target="#ReservationModal">Rezerviši</button>
 								</div>
 								<div class="pricing-btn rounded-buttons text-center" th:unless="${session.user != null}">
 									<button class="main-btn rounded-one" data-toggle="modal" data-target="#LoginModal">Rezerviši</button>
@@ -447,14 +449,19 @@
 	
 	<script type="text/javascript">
 	$('.main-btn.rounded-one.reserve').click(function(){
+			$('#reserveForm')[0].reset();
 			var proslavaId = $(this).attr('value');
 			var proslavaCena = $(this).attr('data-price');
+			var poeni = $(this).attr('data-points');
+			$('#points').text(poeni);
 			$('#proslavaId').val(proslavaId);
 			$('#proslavaCena').val(proslavaCena);
 		});
 	$("#count").click(function(){
 		var sum = parseInt($(this).val()) * $('#proslavaCena').attr('value');
+		var bonus = parseInt($(this).val()) * $('#points').text();
 		$('#sum').val(sum);
+		$('#bonus').val(bonus);
 	});
 	
 	</script>

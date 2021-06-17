@@ -323,7 +323,6 @@ p {
 .update input, textarea{
 	box-shadow: 0 2px 6px 0 rgb(218 218 253 / 65%), 0 2px 6px 0 rgb(206 206 238 / 54%);
     border: 0 solid transparent;
-    margin-left: 30px;
     border-radius: .25rem;
     margin-bottom: 1.2rem;
     background-color: #fff;
@@ -344,6 +343,14 @@ p {
     color: #121212;
 }
 
+#update-label{
+	min-width: 70px;
+    font-size: 18px;
+    font-weight: 700;
+    display: block;
+    color: whitesmoke;
+}
+
 .update button{
 	margin-top: 25px;
 	font-weight: 600;
@@ -353,8 +360,8 @@ p {
 	margin-top: 25px;
 }
 
-#updateProslava input{
-	margin-left: 120px;
+#updateForm{
+	text-align: center!important;
 }
 
 .features-title{
@@ -2415,7 +2422,9 @@ p {
   left: 0;
   width: 100%;
   padding: 10px 0;
-  z-index: 99; }
+  z-index: 99;
+  background-image: url(/images/navbar.jpg) 
+  }
   .navbar-area .navbar {
     position: relative;
     padding: 0; }
@@ -2578,7 +2587,7 @@ p {
             background-color: transparent;
             color: #fff; }
   .navbar-area.sticky {
-    background-color: #fff;
+    background: whitesmoke;
     z-index: 999;
     position: fixed;
     -webkit-box-shadow: 0px 10px 25px 0px rgba(18, 18, 18, 0.05);
@@ -2607,11 +2616,15 @@ p {
 	float: right;	
 }
 
+#nav-manager{
+	background: slategray;
+}
+
 /*===========================
        10.SLIDER css 
 ===========================*/
 .carousel-item {
-  background-color: #0067f4;
+  background-color: darkslateblue;
   position: relative; }
   .carousel-item::before {
     position: absolute;
@@ -2650,7 +2663,9 @@ p {
     z-index: 9; }
     .carousel-item .slider-image-box .slider-image {
       max-width: 680px;
-      width: 100%; }
+      width: 100%;
+      padding-bottom: 120px;
+       }
 
 .slider-content {
   position: relative;
@@ -2731,6 +2746,10 @@ p {
       @media (max-width: 767px) {
         .carousel-indicators li.active {
           width: 23px; } }
+          
+.slider-cake{
+	padding-left: 120px;
+}
 
 .carousel .carousel-control-prev, .carousel .carousel-control-next {
   top: 50%;
@@ -2785,7 +2804,8 @@ p {
 
 .single-features {
   padding: 40px 20px 52px;
-  background-color: #fff; }
+  background-color: #fff;
+  width: 350px; }
   .single-features .features-title-icon .features-title a {
     font-size: 36px;
     line-height: 45px;
