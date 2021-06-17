@@ -104,11 +104,16 @@
 							</ul>
 							<ul th:unless="${session.user == null}">
 								<li>
-									<a type="button" class="solid" th:href="@{/showKorisnik}">
-										<i class="far fa-user-circle"></i>
-										poeni:
-										<span th:text="${session.user.poeni}"></span>
-									</a>
+									<th:block th:switch="${session.user.tip}">
+										<a th:case="klijent" type="button" class="solid" th:href="@{/showKorisnik}">
+											<i class="far fa-user-circle"></i>
+												poeni:
+											<span th:text="${session.user.poeni}"></span>
+										</a>
+										<a th:case="menadzer" type="button" class="solid" th:href="@{/menadzer}">
+											<i class="far fa-user-circle"></i>
+										</a>
+									</th:block>
 								</li>
 								<li>
 									<form th:action="@{/LogOut}" method="post">
@@ -382,7 +387,7 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-6 col-md-10">
 					<div class="section-title text-center pb-25">
-						<h3 class="title">Ponude agencija</h3>
+						<h3 class="title">Istaknute agencije</h3>
 						<p class="text">Ne trošite više vreme pretraživajući razne sajtove, sve agencije kao i njihove ponude izlistane su ovde!</p>
 					</div>
 					<!-- section title -->
@@ -394,7 +399,7 @@
 					<div class="col-lg-4 col-md-7 col-sm-9">
 						<div class="pricing-style mt-30">
 							<div class="pricing-icon text-center">
-								<img th:src="@{${'/images/' + agencija.slika + '.jpg'}}" alt="">
+								<img th:src="@{${'/images/agencije/' + agencija.naziv + '/' + agencija.slika + ''}}" alt="">
 							</div>
 							<div class="pricing-header text-center">
 								<h5 class="sub-title">

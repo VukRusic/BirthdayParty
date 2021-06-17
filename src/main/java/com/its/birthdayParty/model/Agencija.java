@@ -27,6 +27,9 @@ public class Agencija {
 	@Column(name = "slika")
 	private String slika;
 	
+	@Column(name = "pozadina")
+	private String pozadina;
+	
 	@Column(name = "menadzer")
 	private Integer menadzer;
 	
@@ -84,6 +87,15 @@ public class Agencija {
 	public void setNaziv(String naziv) {
 		this.naziv = naziv;
 	}
+	
+	public String getPozadina() {
+		return pozadina;
+	}
+
+	public void setPozadina(String pozadina) {
+		this.pozadina = pozadina;
+	}
+
 
 	public String getLokacija() {
 		return lokacija;

@@ -34,4 +34,37 @@ public class AgencijaServiceImpl implements AgencijaService{
 		return agencijaRepository.getAgencijaNaziv(id);
 	}
 
+	@Override
+	public Agencija getAgencijaByMenadzerId(Integer id) {
+		return agencijaRepository.getAgencijaByMenadzerId(id);
+	}
+
+	@Override
+	public void update(Agencija agencija) {
+		Agencija agencijaUpdate = agencijaRepository.getOne(agencija.getId());
+		
+		agencijaUpdate.setNaziv(agencija.getNaziv());
+		agencijaUpdate.setEmail(agencija.getEmail());
+		agencijaUpdate.setKrajRV(agencija.getKrajRV());
+		agencijaUpdate.setPocetakRV(agencija.getPocetakRV());
+		agencijaUpdate.setLokacija(agencija.getLokacija());
+		agencijaUpdate.setTelefon(agencija.getTelefon());
+		agencijaUpdate.setOpis(agencija.getOpis());
+		
+		if(agencija.getSlika() != null) {
+			agencijaUpdate.setSlika(agencija.getSlika());
+		}
+		
+		if(agencija.getPozadina() != null) {
+			agencijaUpdate.setPozadina(agencija.getPozadina());
+		}
+		
+		this.agencijaRepository.save(agencijaUpdate);
+	}
+
+	@Override
+	public void createAgencija(Agencija agencija) {
+		this.agencijaRepository.save(agencija);
+	}
+
 }

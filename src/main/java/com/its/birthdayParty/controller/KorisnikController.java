@@ -59,9 +59,15 @@ public class KorisnikController {
 	@PostMapping("/updateKorisnik")
 	public String updateKorisnik(@ModelAttribute("korisnik") Korisnik korisnik, HttpServletRequest request) {
 		korisnikService.update(korisnik);
+		
 		Korisnik user = korisnikService.getKorisnikById(korisnik.getId());
 		request.getSession().setAttribute("user", user);
-		return "redirect:showKorisnik";
+		
+		if(user.getTip().equals("menadzer")) {
+			return "redirect:/menadzer";
+		}
+		
+		return "redirect:/showKorisnik";
 	}
 	
 	@GetMapping("/showAgencija/{id}")
@@ -81,6 +87,7 @@ public class KorisnikController {
 	public String makeReservation(@ModelAttribute("rezervacija") Rezervacija rezervacija, HttpServletRequest request) {
 		Korisnik user = (Korisnik) request.getSession().getAttribute("user");
 		rezervacija.setKorisnik_id(user.getId());
+		rezervacija.setStatus("U procesu");
 		rezervacijaService.makeReservation(rezervacija);
 		request.getSession().setAttribute("message", "Rezervacija je uspešno prosleđena i čeka dalje odobrenje od agencije. "
 				+ "Možete pratiti njen status na vašem portalu. Za sve dodatne informacije ili promene kontaktiraje nas.");

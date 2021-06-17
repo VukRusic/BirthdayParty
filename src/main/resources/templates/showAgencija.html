@@ -36,7 +36,7 @@
 
 <style th:inline="text">
 	#agencijaPanel {
-		background-image: url('[[@{${'/images/agencije/' + agencija.slika + '/main.jpg'}}]]');
+		background-image: url('[[@{${'/images/agencije/' + agencija.naziv + '/' + agencija.pozadina + ''}}]]');
 	}
 </style>
 
@@ -91,11 +91,23 @@
 
 						<div class="navbar-btn d-none d-sm-inline-block">
 							<ul th:if="${session.user == null}">
-								<li><a type="button" class="solid" data-toggle="modal" data-target="#LoginModal">Prijavi se</a></li>
+								<li>
+									<a type="button" class="solid" data-toggle="modal" data-target="#LoginModal">Prijavi se</a>
+								</li>
 							</ul>
 							<ul th:unless="${session.user == null}">
-								<li><a type="button" class="solid" th:href="@{/showKorisnik}"> <i class="far fa-user-circle"></i> poeni: <span th:text="${session.user.poeni}"></span>
-								</a></li>
+								<li>
+									<th:block th:switch="${session.user.tip}">
+										<a th:case="klijent" type="button" class="solid" th:href="@{/showKorisnik}">
+											<i class="far fa-user-circle"></i>
+												poeni:
+											<span th:text="${session.user.poeni}"></span>
+										</a>
+										<a th:case="menadzer" type="button" class="solid" th:href="@{/menadzer}">
+											<i class="far fa-user-circle"></i>
+										</a>
+									</th:block>
+								</li>
 								<li>
 									<form th:action="@{/LogOut}" method="post">
 										<a type="button" class="solid" th:href="@{/LogOut}">Odjavi se</a>
@@ -183,7 +195,8 @@
 						</div>
 						<div class="form">
 							<form th:action="@{/reserve}" th:object="${rezervacija}" th:method="post">
-								<input type="hidden" th:field="*{proslava_id}"  id="proslavaId" value="">
+								<input type="hidden" th:field="*{proslava_id}" id="proslavaId" value="">
+								<input id="proslavaCena" type="hidden"> 
 								<input type="date" th:field="*{datum}" placeholder="Datum" required="required">
 								<input type="time" th:field="*{vreme}" placeholder="Vreme početka proslave" required="required">
 								<label>Unesite broj dece na proslavi</label><br>
@@ -244,7 +257,7 @@
 					<div class="col-lg-4 col-md-7 col-sm-9">
 						<div class="pricing-style mt-30">
 							<div class="pricing-icon text-center">
-								<img th:src="@{${'/images/agencije/' + agencija.slika + '/' + proslava.slika + '.jpg'}}" alt="">
+								<img th:src="@{${'/images/agencije/' + agencija.naziv + '/' + proslava.slika}}" alt="">
 							</div>
 							<div class="pricing-header text-center">
 								<h5 class="sub-title">
@@ -260,11 +273,13 @@
 
 								</ul>
 							</div>
-							<div class="pricing-btn rounded-buttons text-center" th:if="${session.user != null}">
-								<button id="reserveBtn" class="main-btn rounded-one" th:data-price="${proslava.cena}" th:value="${proslava.id}" data-toggle="modal" data-target="#ReservationModal">Rezerviši</button>
-							</div>
-							<div class="pricing-btn rounded-buttons text-center" th:unless="${session.user != null}">
-								<button class="main-btn rounded-one" data-toggle="modal" data-target="#LoginModal">Rezerviši</button>
+							<div th:if="${session.user != null && session.user.tip!='menadzer'}">
+								<div class="pricing-btn rounded-buttons text-center" th:if="${session.user != null}">
+									<button class="main-btn rounded-one reserve" th:data-price="${proslava.cena}" th:value="${proslava.id}" data-toggle="modal" data-target="#ReservationModal">Rezerviši</button>
+								</div>
+								<div class="pricing-btn rounded-buttons text-center" th:unless="${session.user != null}">
+									<button class="main-btn rounded-one" data-toggle="modal" data-target="#LoginModal">Rezerviši</button>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -431,13 +446,14 @@
 	<script src="/js/main.js"></script>
 	
 	<script type="text/javascript">
-	$('#reserveBtn').click(function(){
+	$('.main-btn.rounded-one.reserve').click(function(){
 			var proslavaId = $(this).attr('value');
 			var proslavaCena = $(this).attr('data-price');
 			$('#proslavaId').val(proslavaId);
+			$('#proslavaCena').val(proslavaCena);
 		});
 	$("#count").click(function(){
-		var sum = parseInt($(this).val()) * $('#reserveBtn').attr('data-price');
+		var sum = parseInt($(this).val()) * $('#proslavaCena').attr('value');
 		$('#sum').val(sum);
 	});
 	

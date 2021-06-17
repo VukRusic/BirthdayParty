@@ -89,12 +89,12 @@
 								<li><a type="button" class="solid" data-toggle="modal" data-target="#LoginModal">Prijavi se</a></li>
 							</ul>
 							<ul th:unless="${session.user == null}">
-								<li><a type="button" class="solid" onClick="location.href='showKorisnik'"> <i class="far fa-user-circle"></i> poeni: <span
+								<li><a type="button" class="solid" th:href="@{/showKorisnik}"> <i class="far fa-user-circle"></i> poeni: <span
 										th:text="${session.user.poeni}"></span>
 								</a></li>
 								<li>
 									<form th:action="@{/LogOut}" method="post">
-										<a type="button" class="solid" onClick="location.href='LogOut'">Odjavi se</a>
+										<a type="button" class="solid" th:href="@{/LogOut}">Odjavi se</a>
 									</form>
 								</li>
 							</ul>
@@ -173,7 +173,9 @@
 									<input type="hidden" th:field="*{id}" th:value="${korisnik.Id}"> <label>Ime</label> <input placeholder="Ime" type="text" th:field="*{ime}"> <br>
 									<label>Prezime</label> <input placeholder="Prezime" type="text" th:field="*{prezime}"> <br> <label>Email</label> <input type="text"
 										placeholder="Email" th:field="*{email}" readonly> <br> <label>Sifra</label> <input type="text" placeholder="Lozinka" th:field="*{sifra}"> <br>
-									<label>Tip naloga: </label> <span th:text="${korisnik.tip}"></span> <br> <label>Broj poena: </label> <span th:text="${korisnik.poeni}"></span> <br>
+									<label>Tip naloga: </label> 
+									<input type="text" th:field="*{tip}" readonly="readonly" size="10"> <br> 
+									<label>Broj poena: </label> <span th:text="${korisnik.poeni}"></span> <br>
 									<button type="submit" class="btn btn-primary">Ažuriraj podatke</button>
 								</form>
 							</div>

@@ -24,5 +24,15 @@ public class RezervacijaServiceImpl implements RezervacijaService{
 	public void makeReservation(Rezervacija rezervacija) {
 		this.rezervacijaRepository.save(rezervacija);
 	}
+
+	@Override
+	public List<Rezervacija> getRezervacijeByMenadzerId(Integer id) {
+		return rezervacijaRepository.getRezervacijeByMenadzerId(id);
+	}
+
+	@Override
+	public void changeStatus(String status, Integer id) {
+		this.rezervacijaRepository.changeStatus(status, id);
+	}
 	
 }

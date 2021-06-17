@@ -8,4 +8,8 @@ public interface ProslavaService {
 	
 	List<Proslava> getProslaveByAgencijaId(Integer id);
 	String getProslavaNazivById(Integer id);
+	void createProslava(Proslava proslava);
+	Proslava getProslavaById(Integer id);
+	void update(Proslava proslava);
+	void delete(Integer id);
 }

@@ -26,5 +26,33 @@ public class ProslavaServiceImpl implements ProslavaService{
 	public String getProslavaNazivById(Integer id) {
 		return proslavaRepository.getProslavaNazivById(id);
 	}
+
+	@Override
+	public void createProslava(Proslava proslava) {
+		this.proslavaRepository.save(proslava);
+	}
+
+	@Override
+	public Proslava getProslavaById(Integer id) {
+		return proslavaRepository.getOne(id);
+	}
+
+	@Override
+	public void update(Proslava proslava) {
+		Proslava updateProslava = proslavaRepository.getOne(proslava.getId());
+		updateProslava.setCena(proslava.getCena());
+		updateProslava.setNazivProslave(proslava.getNazivProslave());
+		updateProslava.setOpisProslave(proslava.getOpisProslave());
+		
+		if(proslava.getSlika() != null) {
+		updateProslava.setSlika(proslava.getSlika());
+		}
+		this.proslavaRepository.save(updateProslava);
+	}
+
+	@Override
+	public void delete(Integer id) {
+		this.proslavaRepository.deleteById(id);
+	}
 	
 }

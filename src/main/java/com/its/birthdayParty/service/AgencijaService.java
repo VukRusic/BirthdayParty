@@ -9,4 +9,7 @@ public interface AgencijaService {
 	Agencija getAgencijaByNaziv(String naziv);
 	Agencija getAgencijaById(Integer id);
 	String getAgencijaNazivById(Integer id);
+	Agencija getAgencijaByMenadzerId(Integer id);
+	void update(Agencija agencija);
+	void createAgencija(Agencija agencija);
 }

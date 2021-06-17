@@ -47,7 +47,7 @@ public class AuthController {
 			if(korisnik.getTip() == "klijent") {
 				return "redirect:/";
 			} else {
-				return "redirect:/menadzer";
+				return "redirect:/";
 			}
 		} else {
 			return "redirect:/";

@@ -1,10 +1,614 @@
-<!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="en">
+
 <head>
-<meta charset="ISO-8859-1">
-<title>Insert title here</title>
+<meta charset="utf-8">
+
+<!--====== Title ======-->
+<title>Proslave</title>
+
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--====== Favicon Icon ======-->
+<link rel="icon" href="/images/balloons.jpg" type="image/jpg">
+
+<!--====== Magnific Popup CSS ======-->
+<link rel="stylesheet" href="/css/magnific-popup.css">
+
+<!--====== Slick CSS ======-->
+<link rel="stylesheet" href="/css/slick.css">
+
+<!--====== Line Icons CSS ======-->
+<link rel="stylesheet" href="/css/LineIcons.css">
+
+<!--====== Bootstrap CSS ======-->
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+<!--====== Default CSS ======-->
+<link rel="stylesheet" href="/css/default.css">
+
+<!--====== Style CSS ======-->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- ===== Font awesome ===== -->
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
 </head>
+
 <body>
-	<p>hello</p>
+
+	<!--====== PRELOADER PART START ======-->
+
+	<div class="preloader">
+		<div class="loader">
+			<div class="ytp-spinner">
+				<div class="ytp-spinner-container">
+					<div class="ytp-spinner-rotator">
+						<div class="ytp-spinner-left">
+							<div class="ytp-spinner-circle"></div>
+						</div>
+						<div class="ytp-spinner-right">
+							<div class="ytp-spinner-circle"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--====== PRELOADER PART ENDS ======-->
+
+	<!--====== NAVBAR TWO PART START ======-->
+
+	<section class="navbar-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<nav class="navbar navbar-expand-lg">
+
+						<a class="navbar-brand" href="#"> </a>
+
+						<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTwo" aria-controls="navbarTwo" aria-expanded="false"
+							aria-label="Toggle navigation">
+							<span class="toggler-icon"></span>
+							<span class="toggler-icon"></span>
+							<span class="toggler-icon"></span>
+						</button>
+
+						<div class="collapse navbar-collapse sub-menu-bar" id="navbarTwo">
+							<ul class="navbar-nav m-auto">
+								<li class="nav-item active">
+									<a class="page-scroll" th:href="@{/}">Početna</a>
+								</li>
+								<li class="nav-item">
+									<a class="page-scroll" href="#portfolio">O agenciji</a>
+								</li>
+								<li class="nav-item">
+									<a class="page-scroll" href="#about">Ponuda</a>
+								</li>
+							</ul>
+						</div>
+
+						<div class="navbar-btn d-none d-sm-inline-block">
+							<ul th:if="${session.user == null}">
+								<li>
+									<a type="button" class="solid" data-toggle="modal" data-target="#LoginModal">Prijavi se</a>
+								</li>
+							</ul>
+							<ul th:unless="${session.user == null}">
+								<li>
+									<th:block th:switch="${session.user.tip}">
+										<a th:case="klijent" type="button" class="solid" th:href="@{/showKorisnik}">
+											<i class="far fa-user-circle"></i>
+												poeni:
+											<span th:text="${session.user.poeni}"></span>
+										</a>
+										<a th:case="menadzer" type="button" class="solid" th:href="@{/menadzer}">
+											<i class="far fa-user-circle"></i>
+										</a>
+									</th:block>
+								</li>
+								<li>
+									<form th:action="@{/LogOut}" method="post">
+										<a type="button" class="solid" th:href="@{/LogOut}">Odjavi se</a>
+									</form>
+								</li>
+							</ul>
+						</div>
+					</nav>
+					<!-- navbar -->
+				</div>
+			</div>
+			<!-- row -->
+		</div>
+		<!-- container -->
+	</section>
+
+	<!--====== NAVBAR TWO PART ENDS ======-->
+	
+	<!--====== UPDATE AGENCIJA MODAL START ======-->
+	
+	<div th:if="${agencija != null}" class="modal fade" id="UpdateAgencijaModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Unesite nove podatke o agenciji</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div>
+						</div>
+						<div class="form">
+							<form th:action="@{/updateAgencija}" th:object="${agencija}" th:method="post" enctype="multipart/form-data">
+								<input type="hidden" th:field="*{Id}">
+								<input placeholder="Naziv" type="text" th:field="*{naziv}" required="required">
+								<input type="text" placeholder="Lokacija" th:field="*{lokacija}" required="required">
+								<div>
+									<label>Pocetak radnog vremena: </label>
+									<input type="text" th:field="*{pocetakRV}" required="required">
+									<label>Kraj radnog vremena: </label>
+									<input type="text" th:field="*{krajRV}" required="required">
+								</div>
+								<input type="text" th:field="*{telefon}" required="required">
+								<input type="text" th:field="*{email}" required="required">
+								<textarea cols="45" rows="3" placeholder="Opis" th:field="*{opis}" required="required"></textarea>
+								<label>Logo agencije: </label>
+								<input type="file" name="image" accept="image/png, image/jpeg">
+								<label>Slika namenjena za pozadinu profila agencije: </label>
+								<input type="file" name="main" accept="image/png, image/jpeg">
+								<br>
+								<button type="submit">Ažuriraj podatke</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== UPDATE AGENCIJA MODAL ENDS ======-->
+	
+	<!--====== CREATE AGENCIJA MODAL START ======-->
+	
+	<div class="modal fade" id="CreateAgencijaModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Unesite podatke o agenciji</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div>
+						</div>
+						<div class="form">
+							<form th:action="@{/createAgencija}" th:object="${agencija}" th:method="post" enctype="multipart/form-data">
+								<input id="menadzer_id" type="hidden" name="menadzer" value="">
+								<label>Naziv</label>
+								<input type="text" th:field="*{naziv}" required="required">
+								<label>Lokacija</label>
+								<input type="text" placeholder="Lokacija" th:field="*{lokacija}" required="required">
+								<label>Pocetak radnog vremena: </label>
+								<input type="text" th:field="*{pocetakRV}" required="required">
+								<label>Kraj radnog vremena: </label>
+								<input type="text" th:field="*{krajRV}" required="required">
+								<label>Telefon</label>
+								<input type="text" th:field="*{telefon}" required="required">
+								<label>Email</label>
+								<input type="text" th:field="*{email}" required="required">
+								<textarea cols="45" rows="3" placeholder="Opis" th:field="*{opis}" required="required"></textarea>
+								<label>Logo agencije: </label>
+								<input type="file" name="image" accept="image/png, image/jpeg">
+								<label>Slika namenjena za pozadinu profila agencije: </label>
+								<input type="file" name="main" accept="image/png, image/jpeg">
+								<br>
+								<button type="submit">Registruj</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== CREATE AGENCIJA MODAL ENDS ======-->
+
+	<!--====== CREATE PROSLAVA MODAL START ======-->
+	
+	<div class="modal fade" id="ProslavaRegistrationModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Unesite podatke o proslavi</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div>
+						</div>
+						<div class="form">
+							<form th:action="@{/createProslava}" th:object="${proslava}" th:method="post" enctype="multipart/form-data">
+								<input id="agencija_id" type="hidden" th:field="*{agencijaId}" value="">
+								<input placeholder="Naziv" type="text" th:field="*{nazivProslave}" required="required">
+								<input type="text" placeholder="Cena po detetu" th:field="*{cena}" required="required">
+								<textarea cols="45" rows="3" placeholder="Opis proslave" th:field="*{opisProslave}" required="required"></textarea>
+								<input type="file" name="image" accept="image/png, image/jpeg" required="required">
+								<br>
+								<button type="submit">Kreiraj proslavu</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== CREATE PROSLAVA MODAL ENDS ======-->
+	
+	<!--====== STATUS MODAL START ====== -->
+	
+	<div class="modal fade" id="StatusModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Status rezervacije</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div></div>
+						<div class="form">
+							<form th:action="@{/changeStatus}" th:method="post">
+								<input type="hidden" th:name="id" id="rezervacijaId" value="">
+								<h5>Promeni status rezervacije</h5><br>
+								<select id="statusSelect" th:name="status" class="custom-select custom-select-lg mb-3" aria-label="Default select example">
+									<option value="U procesu provere">U procesu provere</option>
+									<option value="Potvrđena">Potvrđena</option>
+									<option value="Odbijena">Odbijena</option>
+								</select>
+								<input type="submit" value="Sačuvaj">
+							</form>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== STATUS MODAL ENDS ====== -->
+
+	<!--====== FEATRES TWO PART START ======-->
+
+	<section id="userPanel" class="features-area">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-10">
+					<div class="section-title text-center pb-10">
+						<h3 class="title">Vaš nalog</h3>
+						<p class="text">Sve informacije o ovam nalogu, kao i rezervacijama vaše agencije možete da pronađete ovde.</p>
+					</div>
+					<!-- <div class="alert alert-info" role="alert" th:if="${session.message != null}">
+  						<p th:text="${session.message}"></p>
+					</div> -->
+					<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${session.message != null}">
+						<p th:text="${session.message}"></p>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<!-- row -->
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row justify-content-center">
+				<div class="col-lg-4 col-md-7 col-sm-9">
+					<div class="single-features mt-40">
+						<div class="features-title-icon d-flex justify-content-between">
+							<h4 class="features-title">
+								<a> <i class="fas fa-user fa-2x"></i>
+								</a>
+							</h4>
+						</div>
+						<div class="features-content">
+							<div class="form">
+								<form th:action="@{/updateKorisnik}" th:object="${korisnik}" th:method="post" class="update">
+									<input type="hidden" th:field="*{id}" th:value="${korisnik.Id}"> 
+									<label>Ime</label> 
+									<input placeholder="Ime" type="text" th:field="*{ime}"> <br>
+									<label>Prezime</label> 
+									<input placeholder="Prezime" type="text" th:field="*{prezime}"> <br> 
+									<label>Email</label> 
+									<input type="text" placeholder="Email" th:field="*{email}" readonly> <br> 
+									<label>Sifra</label> 
+									<input type="text" placeholder="Lozinka" th:field="*{sifra}"> <br>
+									<label>Tip naloga: </label> <span th:text="${korisnik.tip}"></span> <br>
+									<button type="submit" class="btn btn-primary">Ažuriraj podatke</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- single features -->
+				</div>
+				<div class="col-lg-4 col-md-7 col-sm-9">
+					<div id="reservations" class="single-features mt-40">
+						<div class="features-title-icon d-flex justify-content-between">
+							<h4 class="features-title">
+								<a>Rezervacije:</a>
+							</h4>
+						</div>
+						<div class="features-content">
+							<div th:if="${rezervacije.size() > 0}">
+							<table  class="table table-striped">
+								<thead>
+									<tr>
+										<th>Datum</th>
+										<th>Agencija</th>
+										<th>Proslava</th>
+										<th>Cena</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="rezervacija: ${rezervacije}" th:object="${rezervacija}" th:if="${rezervacija.status != null}">
+										<td th:text="${rezervacija.datum}"></td>
+										<td th:text="${agencijaService.getAgencijaNazivById(rezervacija.proslava_id)}"></td>
+										<td th:text="${proslavaService.getProslavaNazivById(rezervacija.proslava_id)}"></td>
+										<td th:text="${rezervacija.ukupna_cena}"></td>
+										<td><button th:data-status="${rezervacija.status}" th:value="${rezervacija.id}" type="button" class="btn btn-primary status" data-toggle="modal" data-target="#StatusModal" th:text="${rezervacija.status}"></button></td>
+									</tr>
+								</tbody>
+							</table>
+							<p id="status-help">*klikom na status možete ažurirate status rezervacije.</p>
+							</div>
+							<div th:unless="${rezervacije.size() > 0}">
+								<p>Nemate rezervisane proslave</p>
+							</div>
+							<!-- <a class="features-btn">Pogledaj sve</a> -->
+						</div>
+					</div>
+					<!-- single features -->
+				</div>
+			</div>
+		</div>
+		<!-- container -->
+	</section>
+
+	<!--====== FEATRES TWO PART ENDS ======-->
+
+	<!--====== PRINICNG START ======-->
+
+	<section id="portfolio" class="pricing-area ">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-10">
+					<div class="section-title text-center pb-25">
+						<h3 class="title">Agencija</h3>
+						<p th:if="${agencija != null}" class="text">Ovde se nalazi profil vaše agencije. Klikom na dugme prikaz možete da vidite kako izgleda stranica agencije namenjena za klijente.</p>
+						<p th:unless="${agencija != null}" class="text">Nemate još uvek registrovanu agenciju.</p>
+					</div>
+					<!-- section title -->
+				</div>
+			</div>
+			<div th:if="${agencija.Id == 0}" class="row justify-content-center">
+				<div class="light-rounded-buttons mt-30">
+				<button id="createAgencijaBtn" class="main-btn light-rounded-two" th:value="${korisnik.id}" data-toggle="modal" data-target="#CreateAgencijaModal">
+				<i class="fas fa-plus-circle"></i> Regitruj agenciju </button>
+			</div>
+				
+			</div>
+			<!-- row -->
+			<div th:unless="${agencija.Id == 0}" class="row justify-content-center">
+				<div class="offers" th:each="agencija: ${agencija}" th:object="${agencija}">
+					<div class="col-lg-4 col-md-7 col-sm-9">
+						<div class="pricing-style mt-30">
+							<div class="pricing-icon text-center">
+								<img th:src="@{${'/images/agencije/' + agencija.naziv + '/' + agencija.slika }}" alt="">
+							</div>
+							<div class="pricing-header text-center">
+								<h5 class="sub-title">
+									<span th:text="${agencija.naziv}"></span>
+								</h5>
+								<!-- <p class="month">od <span class="price">$ 199</span>/month</p> -->
+							</div>
+							<div class="pricing-list">
+								<ul>
+									<li>
+										<i class="lni lni-check-mark-circle"></i>
+										<span th:text="${agencija.opis}"></span>
+									</li>
+
+								</ul>
+							</div>
+							<div class="pricing-btn rounded-buttons text-center">
+								<a class="main-btn rounded-one" th:href="@{${'/showAgencija/' + agencija.Id}}">Prikaz</a>
+								<a class="main-btn rounded-one" href="" data-toggle="modal" data-target="#UpdateAgencijaModal">Ažuriraj</a>
+							</div>
+						</div>
+						<!-- pricing style one -->
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+		</div>
+		<!-- container -->
+	</section>
+
+	<!--====== PRINICNG ENDS ======-->
+
+	<!--====== ABOUT PART START ======-->
+
+	<section th:if="${agencija.Id != 0}" id="about" class="about-area">
+		<div class="section-title text-center pb-10">
+			<h3 class="title">Proslave u sklopu vaše agencije</h3>
+			<p class="text">Kreirajte novu ponudu i pratite njen status dok naš tim izvršava njenu registraciju!</p>
+			<div class="light-rounded-buttons mt-30">
+				<button id="createProslavaBtn" class="main-btn light-rounded-two" th:value="${agencija.id}" data-toggle="modal" data-target="#ProslavaRegistrationModal">Kreiraj
+					novu proslavu</button>
+			</div>
+		</div>
+		<div class="row justify-content-center">
+			<div class="offers" th:each="p: ${proslave}" th:object="${proslava}">
+				<div class="col-lg-4 col-md-7 col-sm-9">
+					<div class="pricing-style mt-30">
+						<div class="pricing-icon text-center">
+							<img th:src="@{${'/images/agencije/' + agencija.naziv + '/' + p.slika}}" alt="">
+						</div>
+						<div class="pricing-header text-center">
+							<h5 class="sub-title">
+								<span th:text="${p.nazivProslave}"></span>
+							</h5>
+							<p class="month">
+								<span class="price" th:text="${p.cena}"></span>din /po detetu
+							</p>
+						</div>
+						<div class="pricing-list">
+							<ul>
+								<li><i class="lni lni-check-mark-circle"></i><span th:text="${p.opisProslave}"></span></li>
+							</ul>
+						<div class="pricing-btn rounded-buttons text-center">
+							<a class="main-btn rounded-one" th:href="@{${'/showProslava/' + p.Id}}">Ažuriraj</a>
+						</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!-- row -->
+		</div>
+		<!-- section title -->
+	</section>
+
+	<!--====== ABOUT PART ENDS ======-->
+
+	<!--====== FOOTER PART START ======-->
+
+	<section class="footer-area footer-dark">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6">
+					<div class="footer-logo text-center">
+						<a class="mt-30" href="index.html">
+							<img src="/images/logo.svg" alt="Logo">
+						</a>
+					</div>
+					<!-- footer logo -->
+					<ul class="social text-center mt-60">
+						<li>
+							<a href="https://facebook.com/uideckHQ">
+								<i class="lni lni-facebook-filled"></i>
+							</a>
+						</li>
+						<li>
+							<a href="https://twitter.com/uideckHQ">
+								<i class="lni lni-twitter-original"></i>
+							</a>
+						</li>
+						<li>
+							<a href="https://instagram.com/uideckHQ">
+								<i class="lni lni-instagram-original"></i>
+							</a>
+						</li>
+						<li>
+							<a href="#">
+								<i class="lni lni-linkedin-original"></i>
+							</a>
+						</li>
+					</ul>
+					<!-- social -->
+					<div class="footer-support text-center">
+						<span class="number">+8801234567890</span>
+						<span class="mail">support@uideck.com</span>
+					</div>
+					<div class="copyright text-center mt-35">
+						<p class="text">
+							Designed by
+							<a href="https://uideck.com" rel="nofollow">UIdeck</a>
+							and Built-with
+							<a rel="nofollow" href="https://ayroui.com">Ayro UI</a>
+						</p>
+					</div>
+					<!--  copyright -->
+				</div>
+			</div>
+			<!-- row -->
+		</div>
+		<!-- container -->
+	</section>
+
+	<!--====== FOOTER PART ENDS ======-->
+
+	<!--====== BACK TOP TOP PART START ======-->
+
+	<a href="#" class="back-to-top">
+		<i class="lni lni-chevron-up"></i>
+	</a>
+
+	<!--====== BACK TOP TOP PART ENDS ======-->
+
+	<!--====== Jquery js ======-->
+	<script src="/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="/js/vendor/modernizr-3.7.1.min.js"></script>
+
+	<!--====== Bootstrap js ======-->
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+
+	<!--======= Login/Registration =====-->
+	<script>
+		// Toggle Function
+		$('.toggle').click(function() {
+			// Switches the Icon
+			$(this).children('i').toggleClass('fa-pencil');
+			// Switches the forms  
+			$('.form').animate({
+				height : "toggle",
+				'padding-top' : 'toggle',
+				'padding-bottom' : 'toggle',
+				opacity : "toggle"
+			}, "slow");
+		});
+		
+		$('.btn.btn-primary.status').click(function(){
+			var rezervacijaId = $(this).attr('value');
+			var status = $(this).attr('data-status');
+			$('#statusSelect').val(status).change();
+			$('#rezervacijaId').val(rezervacijaId);
+			console.log(rezervacijaId);
+		});
+		
+		$('#createProslavaBtn').click(function(){
+			var agencijaId = $(this).attr('value');
+			$('#agencija_id').val(agencijaId);
+		})
+		
+		$('#createAgencijaBtn').click(function(){
+			var menadzerId = $(this).attr('value');
+			$('#menadzer_id').val(menadzerId);
+		})
+		
+		
+	</script>
+
+	<!--====== Isotope js ======-->
+	<script src="/js/imagesloaded.pkgd.min.js"></script>
+	<script src="/js/isotope.pkgd.min.js"></script>
+
+	<!--====== Scrolling Nav js ======-->
+	<script src="/js/jquery.easing.min.js"></script>
+	<script src="/js/scrolling-nav.js"></script>
+
+	<!--====== Main js ======-->
+	<script src="/js/main.js"></script>
+
 </body>
+
 </html>
