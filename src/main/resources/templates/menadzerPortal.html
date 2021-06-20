@@ -229,6 +229,7 @@
 								<input id="agencija_id" type="hidden" th:field="*{agencijaId}" value="">
 								<input placeholder="Naziv" type="text" th:field="*{nazivProslave}" required="required">
 								<input type="text" placeholder="Cena po detetu" th:field="*{cena}" required="required">
+								<input type="text" placeholder="Bonus poeni po detetu" th:field="*{poeni}" required="required">
 								<textarea cols="45" rows="3" placeholder="Opis proslave" th:field="*{opisProslave}" required="required"></textarea>
 								<input type="file" name="image" accept="image/png, image/jpeg" required="required">
 								<br>
@@ -258,7 +259,7 @@
 					<div class="module form-module">
 						<div></div>
 						<div class="form">
-							<form th:action="@{/changeStatus}" th:method="post">
+							<form id="statusForm" th:action="@{/changeStatus}" th:method="post">
 								<input type="hidden" th:name="id" id="rezervacijaId" value="">
 								<h5>Promeni status rezervacije</h5><br>
 								<select id="statusSelect" th:name="status" class="custom-select custom-select-lg mb-3" aria-label="Default select example">
@@ -266,6 +267,10 @@
 									<option value="Potvrđena">Potvrđena</option>
 									<option value="Odbijena">Odbijena</option>
 								</select>
+								<div class="message">
+									<label>Razlog odbijanja rezervacije:</label>
+									<textarea cols="45" rows="3" name="poruka"></textarea>
+								</div>
 								<input type="submit" value="Sačuvaj">
 							</form>
 						</div>
@@ -487,47 +492,20 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-6">
 					<div class="footer-logo text-center">
-						<a class="mt-30" href="index.html">
-							<img src="/images/logo.svg" alt="Logo">
+						<a class="mt-30" href="/"> <img class="logo" src="/images/balloons.jpg" alt="Logo">
 						</a>
 					</div>
 					<!-- footer logo -->
 					<ul class="social text-center mt-60">
-						<li>
-							<a href="https://facebook.com/uideckHQ">
-								<i class="lni lni-facebook-filled"></i>
-							</a>
-						</li>
-						<li>
-							<a href="https://twitter.com/uideckHQ">
-								<i class="lni lni-twitter-original"></i>
-							</a>
-						</li>
-						<li>
-							<a href="https://instagram.com/uideckHQ">
-								<i class="lni lni-instagram-original"></i>
-							</a>
-						</li>
-						<li>
-							<a href="#">
-								<i class="lni lni-linkedin-original"></i>
-							</a>
-						</li>
+						<li><a href="https://facebook.com"> <i class="lni lni-facebook-filled"></i>
+						</a></li>
+						<li><a href="https://twitter.com"> <i class="lni lni-twitter-original"></i>
+						</a></li>
+						<li><a href="https://instagram.com"> <i class="lni lni-instagram-original"></i>
+						</a></li>
+						<li><a href="#"> <i class="lni lni-linkedin-original"></i>
+						</a></li>
 					</ul>
-					<!-- social -->
-					<div class="footer-support text-center">
-						<span class="number">+8801234567890</span>
-						<span class="mail">support@uideck.com</span>
-					</div>
-					<div class="copyright text-center mt-35">
-						<p class="text">
-							Designed by
-							<a href="https://uideck.com" rel="nofollow">UIdeck</a>
-							and Built-with
-							<a rel="nofollow" href="https://ayroui.com">Ayro UI</a>
-						</p>
-					</div>
-					<!--  copyright -->
 				</div>
 			</div>
 			<!-- row -->
@@ -569,12 +547,26 @@
 		});
 		
 		$('.btn.btn-primary.status').click(function(){
+			$('#statusForm')[0].reset();
 			var rezervacijaId = $(this).attr('value');
 			var status = $(this).attr('data-status');
+			
+			if(status == "Odbijena"){
+				$('.message').css("display", "grid");
+			} else {
+				$('.message').css("display", "none");
+			}
 			$('#statusSelect').val(status).change();
 			$('#rezervacijaId').val(rezervacijaId);
-			console.log(rezervacijaId);
 		});
+		
+		$('#statusSelect').click(function(){
+			if ($(this).val() == "Odbijena") {
+				$('.message').css("display", "grid");
+			} else {
+				$('.message').css("display", "none");
+			}
+		})
 		
 		$('#createProslavaBtn').click(function(){
 			var agencijaId = $(this).attr('value');
@@ -585,8 +577,7 @@
 			var menadzerId = $(this).attr('value');
 			$('#menadzer_id').val(menadzerId);
 		})
-		
-		
+
 	</script>
 
 	<!--====== Isotope js ======-->

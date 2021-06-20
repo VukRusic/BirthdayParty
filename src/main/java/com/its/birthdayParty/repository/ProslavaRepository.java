@@ -16,4 +16,7 @@ public interface ProslavaRepository extends JpaRepository<Proslava, Integer>{
 	
 	@Query(value = "select naziv_proslave from proslava p where p.id=?1", nativeQuery = true)
 	String getProslavaNazivById(Integer id);
+	
+	@Query(value = "select cena from proslava p join rezervacija r on p.id=r.proslava_id where r.id=?1", nativeQuery = true)
+	Integer getCenaByRezervacijaId(Integer id);
 }

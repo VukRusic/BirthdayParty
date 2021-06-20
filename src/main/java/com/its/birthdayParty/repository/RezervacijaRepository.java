@@ -23,7 +23,7 @@ public interface RezervacijaRepository extends JpaRepository<Rezervacija, Intege
 	
 	@Transactional
 	@Modifying
-	@Query(value = "update rezervacija r set r.status=?1 where r.id=?2", nativeQuery = true)
-	void changeStatus(String status, Integer id);
+	@Query(value = "update rezervacija r set r.status=?1, r.poruka=?2 where r.id=?3", nativeQuery = true)
+	void changeStatus(String status, String poruka, Integer id);
 	
 }

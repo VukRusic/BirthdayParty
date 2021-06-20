@@ -37,6 +37,10 @@ body {
 	display: contents;
 }
 
+.logo{
+	width: 100px;
+}
+
 img {
   max-width: 100%; }
 
@@ -261,6 +265,10 @@ p {
 #sum{
 	width: 150px;
 	display: inline-block;
+}
+
+.message{
+	display: none;
 }
 
 /*===== All Slick Slide Outline Style =====*/
@@ -2625,7 +2633,8 @@ p {
 ===========================*/
 .carousel-item {
   background-color: darkslateblue;
-  position: relative; }
+  position: relative;
+  min-height: 800px; }
   .carousel-item::before {
     position: absolute;
     content: '';
@@ -2864,6 +2873,21 @@ p {
     line-height: 24px;
     color: #909090;
     margin: 0px;
+}
+
+#status-message{
+	text-align: center;
+	margin-bottom: 10px;
+}
+
+.btn-status{
+	display: block;
+	margin: auto;
+	margin-bottom: 8px;
+}
+
+.reservation{
+	max-width:380px;
 }
 
 /*===========================
@@ -3394,6 +3418,10 @@ p {
   padding-top: 120px;
   padding-bottom: 130px;
   background-color: #f4f6f7; }
+  
+.contact-area.contact-main{
+	background-color: #e8e8e8;
+}
 
 p.form-message.success, p.form-message.error {
   font-size: 16px;

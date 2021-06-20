@@ -68,8 +68,8 @@ public class MenadzerController {
 	
 	
 	@PostMapping("/changeStatus")
-	private String changeStatus(@RequestParam String status, @RequestParam Integer id) {
-		rezervacijaService.changeStatus(status, id);
+	private String changeStatus(@RequestParam String status, @RequestParam Integer id, @RequestParam String poruka) {
+		rezervacijaService.changeStatus(status, id, poruka);
 		return "redirect:/menadzer";
 	}
 	

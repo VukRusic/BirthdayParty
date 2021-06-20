@@ -38,6 +38,17 @@ public class Rezervacija {
 	
 	@Column(name = "status")
 	private String status;
+	
+	@Column(name = "poruka")
+	private String poruka;
+
+	public String getPoruka() {
+		return poruka;
+	}
+
+	public void setPoruka(String poruka) {
+		this.poruka = poruka;
+	}
 
 	public String getStatus() {
 		return status;

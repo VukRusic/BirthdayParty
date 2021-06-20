@@ -8,5 +8,8 @@ public interface RezervacijaService {
 	List<Rezervacija> getRezervacijeByKorisnikId(Integer id);
 	void makeReservation(Rezervacija rezervacija);
 	List<Rezervacija> getRezervacijeByMenadzerId(Integer id);
-	void changeStatus(String status, Integer id);
+	void changeStatus(String status, Integer id, String poruka);
+	Rezervacija getRezervacijaById(Integer id);
+	void update(Rezervacija rezervacija);
+	void delete(Integer id);
 }

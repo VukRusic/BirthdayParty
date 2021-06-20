@@ -43,7 +43,7 @@ public class ProslavaServiceImpl implements ProslavaService{
 		updateProslava.setCena(proslava.getCena());
 		updateProslava.setNazivProslave(proslava.getNazivProslave());
 		updateProslava.setOpisProslave(proslava.getOpisProslave());
-		
+		updateProslava.setPoeni(proslava.getPoeni());
 		if(proslava.getSlika() != null) {
 		updateProslava.setSlika(proslava.getSlika());
 		}
@@ -53,6 +53,11 @@ public class ProslavaServiceImpl implements ProslavaService{
 	@Override
 	public void delete(Integer id) {
 		this.proslavaRepository.deleteById(id);
+	}
+
+	@Override
+	public Integer getCenaByRezervacijaId(Integer id) {
+		return proslavaRepository.getCenaByRezervacijaId(id);
 	}
 	
 }

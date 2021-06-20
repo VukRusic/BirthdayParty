@@ -77,10 +77,7 @@
 						<div class="collapse navbar-collapse sub-menu-bar" id="navbarTwo">
 							<ul class="navbar-nav m-auto">
 								<li class="nav-item active"><a class="page-scroll" th:href="@{/}">Nazad na početnu</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#services">Usluge</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#portfolio">Ponuda</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#about">O nama</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#contact">Contact</a></li>
+								<li class="nav-item"><a class="page-scroll" href="#contact">Kontakt</a></li>
 							</ul>
 						</div>
 
@@ -90,7 +87,7 @@
 							</ul>
 							<ul th:unless="${session.user == null}">
 								<li><a type="button" class="solid" th:href="@{/showKorisnik}"> <i class="far fa-user-circle"></i> poeni: <span
-										th:text="${session.user.poeni}"></span>
+										th:text="${korisnik.poeni}"></span>
 								</a></li>
 								<li>
 									<form th:action="@{/LogOut}" method="post">
@@ -114,7 +111,7 @@
 	
 	<div class="modal fade" id="StatusModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
-			<div class="modal-content">
+			<div class="modal-content reservation">
 				<div class="modal-header">
 					<h5>Status rezervacije</h5>
 					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -124,15 +121,82 @@
 				<div class="modal-body">
 					<div class="module form-module">
 						<div>
+							<p id="status-message"></p>
 						</div>
-						
 					</div>
+					<button class="btn btn-primary btn-status update" data-dismiss="modal" data-toggle="modal" data-target="#UpdateReservationModal">Ažuriraj podatke</button>
+					<button class="btn btn-danger btn-status delete" data-dismiss="modal" data-toggle="modal" data-target="#DeleteRezervacijaModal">Otkaži rezervaciju</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	
 	<!--====== STATUS MODAL ENDS ====== -->
+	
+	<!--====== DELETE REZERVACIJA MODAL START -->
+	
+	<div class="modal fade" id="DeleteRezervacijaModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Da li ste sigurni da želite da otkažete rezervaciju?</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div></div>
+						<div class="pricing-btn rounded-buttons text-center">
+							<a class="btn btn-danger id" href="">Da</a>
+							<a class="btn btn-primary" href="" data-dismiss="modal">Ne</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== DELETE REZERVACIJA MODAL ENDS -->
+	
+	<!--====== RESERVATION MODAL START ======-->
+	
+	<div class="modal fade" id="UpdateReservationModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Unesite nove podatke vaše rezervacije</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div>
+						</div>
+						<div class="form">
+							<form id="updateReservationForm" th:action="@{/updateReservacija}" th:object="${rezervacija}" th:method="post">
+								<label>Po svakom detetu stičete <span id="points"></span> bonus poena!</label>
+								<input id="statusRez" type="text" th:field="*{status}" value="">
+								<input type="hidden" th:field="*{Id}" id="rezervacijaId" value="">
+								<input id="proslavaCena" type="hidden"> 
+								<input type="date" th:field="*{datum}" placeholder="Datum" required="required">
+								<input type="time" th:field="*{vreme}" placeholder="Vreme početka proslave" required="required">
+								<label>Unesite broj dece na proslavi</label><br>
+								<input id="count" type="number" min="1" max="99">
+								<label>  ukupna cena: </label>
+								<input id="sum" type="text" placeholder="Ukupna cena" th:field="*{ukupna_cena}" value=""  readonly>
+								<input id="bonus" type="hidden" th:field="*{bonus_poeni}" value="">
+								<button type="submit">Sačuvaj promene</button>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== RESERVATION MODAL ENDS ======-->
 	
 
 	<!--====== FEATRES TWO PART START ======-->
@@ -180,7 +244,7 @@
 									<label>Tip naloga: </label> 
 									<span th:text="${korisnik.tip}"></span> <br> 
 									<label>Broj poena: </label> <span th:text="${korisnik.poeni}"></span> <br>
-									<button type="submit" class="btn btn-primary">Ažuriraj podatke</button>
+									<button type="submit" class="btn btn-primary btn-status">Ažuriraj podatke</button>
 								</form>
 							</div>
 						</div>
@@ -212,7 +276,7 @@
 										<td th:text="${agencija.getAgencijaNazivById(rezervacija.proslava_id)}"></td>
 										<td th:text="${proslava.getProslavaNazivById(rezervacija.proslava_id)}"></td>
 										<td th:text="${rezervacija.ukupna_cena}"></td>
-										<td><button type="button" class="btn btn-primary" data-toggle="modal" data-target="#StatusModal" th:text="${rezervacija.status}"></button></td>
+										<td><button type="button" class="btn btn-primary satusBtn" th:data-id="${rezervacija.Id}" data-toggle="modal" th:data-message="${rezervacija.poruka}" th:data-price="${proslava.getCenaByRezervacijaId(rezervacija.id)}" th:data-points="${proslava.getProslavaById(rezervacija.proslava_id).getPoeni()}" data-target="#StatusModal" th:text="${rezervacija.status}"></button></td>
 									</tr>
 								</tbody>
 							</table>
@@ -240,8 +304,8 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-6 col-md-10">
 					<div class="section-title text-center pb-30">
-						<h3 class="title">Contact</h3>
-						<p class="text">Stop wasting time and money designing and managing a website that doesn’t get results. Happiness guaranteed!</p>
+						<h3 class="title">Kontakt</h3>
+						<p class="text">Za sve dodatne informacije slobodno nas kontaktirajte ili nas posetite.</p>
 					</div>
 					<!-- section title -->
 				</div>
@@ -250,7 +314,7 @@
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="contact-map mt-30">
-						<iframe id="gmap_canvas" src="https://maps.google.com/maps?q=Mission%20District%2C%20San%20Francisco%2C%20CA%2C%20USA&t=&z=13&ie=UTF8&iwloc=&output=embed"
+						<iframe id="gmap_canvas" src="https://maps.google.com/maps?q=visokog%20stevana%20beograd&t=&z=13&ie=UTF8&iwloc=&output=embed"
 							frameborder="0" scrolling="no" marginheight="0" marginwidth="0"></iframe>
 					</div>
 					<!-- row -->
@@ -266,7 +330,7 @@
 							</div>
 							<div class="contact-info-content media-body">
 								<p class="text">
-									Elizabeth St, Melbourne <br> 1202 Australia.
+									Visokog Stevana, Beograd <br> 11000 Srbija.
 								</p>
 							</div>
 						</div>
@@ -278,8 +342,8 @@
 								<i class="lni lni-envelope"></i>
 							</div>
 							<div class="contact-info-content media-body">
-								<p class="text">hello@ayroui.com</p>
-								<p class="text">support@uideck.com</p>
+								<p class="text">hello@rodjendani.com</p>
+								<p class="text">support@rodjendani.com</p>
 							</div>
 						</div>
 						<!-- single contact info -->
@@ -290,8 +354,8 @@
 								<i class="lni lni-phone"></i>
 							</div>
 							<div class="contact-info-content media-body">
-								<p class="text">+333 789-321-654</p>
-								<p class="text">+333 985-458-609</p>
+								<p class="text">+381 069-223-553</p>
+								<p class="text">+391 011-334-241</p>
 							</div>
 						</div>
 						<!-- single contact info -->
@@ -312,30 +376,20 @@
 			<div class="row justify-content-center">
 				<div class="col-lg-6">
 					<div class="footer-logo text-center">
-						<a class="mt-30" href="index.html"> <img src="/images/logo.svg" alt="Logo">
+						<a class="mt-30" href="/"> <img class="logo" src="/images/balloons.jpg" alt="Logo">
 						</a>
 					</div>
 					<!-- footer logo -->
 					<ul class="social text-center mt-60">
-						<li><a href="https://facebook.com/uideckHQ"> <i class="lni lni-facebook-filled"></i>
+						<li><a href="https://facebook.com"> <i class="lni lni-facebook-filled"></i>
 						</a></li>
-						<li><a href="https://twitter.com/uideckHQ"> <i class="lni lni-twitter-original"></i>
+						<li><a href="https://twitter.com"> <i class="lni lni-twitter-original"></i>
 						</a></li>
-						<li><a href="https://instagram.com/uideckHQ"> <i class="lni lni-instagram-original"></i>
+						<li><a href="https://instagram.com"> <i class="lni lni-instagram-original"></i>
 						</a></li>
 						<li><a href="#"> <i class="lni lni-linkedin-original"></i>
 						</a></li>
 					</ul>
-					<!-- social -->
-					<div class="footer-support text-center">
-						<span class="number">+8801234567890</span> <span class="mail">support@uideck.com</span>
-					</div>
-					<div class="copyright text-center mt-35">
-						<p class="text">
-							Designed by <a href="https://uideck.com" rel="nofollow">UIdeck</a> and Built-with <a rel="nofollow" href="https://ayroui.com">Ayro UI</a>
-						</p>
-					</div>
-					<!--  copyright -->
 				</div>
 			</div>
 			<!-- row -->
@@ -373,6 +427,32 @@
 				'padding-bottom' : 'toggle',
 				opacity : "toggle"
 			}, "slow");
+		});
+		
+		$('.btn.btn-primary.satusBtn').click(function(){
+			$('#updateReservationForm')[0].reset();
+			var status = $(this).text();
+			var message = $(this).attr('data-message');
+			var proslavaCena = $(this).attr('data-price');
+			var id = $(this).attr('data-id');
+			var poeni = $(this).attr('data-points');
+			$('#statusRez').val(status);
+			$('#points').text(poeni);
+			$('#rezervacijaId').val(id);
+			$('#proslavaCena').val(proslavaCena);
+			$('.btn.btn-danger.id').attr("href","deleteRezervacija/" + id);
+			if(message == "potvrđena"){
+				$('#status-message').html("Rezervacija je potvrđenja!");
+			} else if(message != ""){
+				$('#status-message').html(message);
+			}
+		});
+		
+		$("#count").click(function(){
+			var sum = parseInt($(this).val()) * $('#proslavaCena').val();
+			var bonus = parseInt($(this).val()) * $('#points').text();
+			$('#sum').val(sum);
+			$('#bonus').val(bonus);
 		});
 	</script>
 
