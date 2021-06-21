@@ -7,6 +7,8 @@ import com.its.birthdayParty.model.Agencija;
 public interface AgencijaService {
 	List<Agencija> getAllAgencijas();
 	List<Agencija> getNewAgencijas();
+	List<Agencija> getAgencijeByNaziv(String naziv);
+	List<String> getLokacije();
 
 	Agencija getAgencijaByNaziv(String naziv);
 	Agencija getAgencijaById(Integer id);

@@ -144,8 +144,43 @@ p {
 	width: 60px;
 }
 
+#show-all{
+	color: white;
+}
+
 .agencija-link{
 	color: black;
+}
+
+/* ==== Search Bar form ====*/
+
+/*search box css start here*/
+.search-sec{
+    padding: 2rem;
+    border-radius: 20%;
+}
+.search-slt{
+    display: block;
+    width: 100%;
+    font-size: 0.875rem;
+    line-height: 1.5;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    height: calc(3rem + 2px) !important;
+    border-radius:0;
+}
+.wrn-btn{
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    text-transform: capitalize;
+    height: calc(3rem + 2px) !important;
+    border-radius:0;
+}
+
+.search-icon{
+	height: -webkit-fill-available;
 }
   
 /* ==== Login/Registration form ====*/
@@ -3061,7 +3096,8 @@ p {
   background: -o-linear-gradient(#2bdbdc 0%, #0067f4 100%);
   background: linear-gradient(#2bdbdc 0%, #0067f4 100%); }
   .pricing-style .pricing-icon img {
-    width: 300px; }
+    width: 300px;
+    border-radius: 15px; }
   .pricing-style .pricing-header .sub-title {
     font-size: 20px;
     font-weight: 600;

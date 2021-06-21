@@ -17,10 +17,16 @@ public interface AgencijaRepository extends JpaRepository<Agencija, Integer>{
 	@Query(value = "Select naziv from agencija a join proslava p on a.id=p.agencija_id where p.id=?1", nativeQuery = true)
 	String getAgencijaNaziv(Integer id);
 	
+	@Query(value = "Select * from agencija a where a.naziv like %?1%", nativeQuery = true)
+	List<Agencija> getAgencijeByNaziv(String naziv);
+	
 	@Query(value = "Select * from agencija a where a.menadzer=?1", nativeQuery = true)
 	Agencija getAgencijaByMenadzerId(Integer id);
 	
 	@Query(value = "Select * from agencija a where a.status='u procesu registracije'", nativeQuery = true)
 	List<Agencija> getNewAgencijas();
+	
+	@Query(value = "Select distinct lokacija from agencija", nativeQuery = true)
+	List<String> getLokacije();
 	
 }

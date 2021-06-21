@@ -80,4 +80,14 @@ public class AgencijaServiceImpl implements AgencijaService{
 		this.agencijaRepository.save(agencija);
 	}
 
+	@Override
+	public List<String> getLokacije() {
+		return agencijaRepository.getLokacije();
+	}
+
+	@Override
+	public List<Agencija> getAgencijeByNaziv(String naziv) {
+		return agencijaRepository.getAgencijeByNaziv(naziv);
+	}
+
 }

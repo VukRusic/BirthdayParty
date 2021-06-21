@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 import com.its.birthdayParty.model.Agencija;
 import com.its.birthdayParty.model.Korisnik;
 import com.its.birthdayParty.model.Proslava;
@@ -74,6 +76,16 @@ public class KorisnikController {
 		return "redirect:/showKorisnik";
 	}
 	
+	@GetMapping("/showAllAgencije")
+	public String showAllAgencije(Model model, HttpServletRequest request) {
+		List<Agencija> agencije = agencijaService.getAllAgencijas();
+		List<String> lokacije = agencijaService.getLokacije();
+		model.addAttribute("korisnik", new Korisnik());
+		model.addAttribute("agencije", agencije);
+		model.addAttribute("lokacije", lokacije);
+		return "showAllAgencije";
+	}
+	
 	@GetMapping("/showAgencija/{id}")
 	public String showAgencija(@PathVariable Integer id, Model model) {
 		List<Proslava> proslave = proslavaService.getProslaveByAgencijaId(id);
@@ -85,6 +97,18 @@ public class KorisnikController {
 		model.addAttribute("korisnik", korisnik);
 		model.addAttribute("rezervacija", rezervacija);
 		return "showAgencija";
+	}
+	
+	@PostMapping("/search")
+	public String search(@RequestParam String naziv, Model model) {
+		if(naziv != "") {
+			List<Agencija> agencije = agencijaService.getAgencijeByNaziv(naziv);
+			model.addAttribute("korisnik", new Korisnik());
+			model.addAttribute("agencije", agencije);
+			return "showAllAgencije";
+		} else {
+			return "redirect:/showAllAgencije";
+		}
 	}
 	
 	@PostMapping("/reserve")

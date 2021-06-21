@@ -397,12 +397,11 @@
 			</div>
 			<div th:if="${agencija.Id == 0}" class="row justify-content-center">
 				<div class="light-rounded-buttons mt-30">
-				<button id="createAgencijaBtn" class="main-btn light-rounded-two" th:value="${korisnik.id}" data-toggle="modal" data-target="#CreateAgencijaModal">
-				<i class="fas fa-plus-circle"></i> Regitruj agenciju </button>
+					<button id="createAgencijaBtn" class="main-btn light-rounded-two" th:value="${korisnik.id}" data-toggle="modal" data-target="#CreateAgencijaModal">
+						<i class="fas fa-plus-circle"></i> Regitruj agenciju
+					</button>
+				</div>
 			</div>
-				
-			</div>
-			<!-- row -->
 			<div th:unless="${agencija.Id == 0}" class="row justify-content-center">
 				<div class="offers" th:each="agencija: ${agencija}" th:object="${agencija}">
 					<div class="col-lg-4 col-md-7 col-sm-9">
