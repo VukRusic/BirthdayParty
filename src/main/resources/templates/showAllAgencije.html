@@ -79,8 +79,7 @@
 								<li class="nav-item">
 									<a class="page-scroll" th:href="@{/}">Nazad na početnu</a>
 								</li>
-								<li class="nav-item"><a class="page-scroll" href="#agencijaPanel">Informacije</a></li>
-								<li class="nav-item"><a class="page-scroll" href="#paketi">Ponuda</a></li>
+								<li class="nav-item"><a class="page-scroll" href="#search-area">Pretraga</a></li>
 								<li class="nav-item"><a class="page-scroll" href="#contact">Kontakt</a></li>
 							</ul>
 						</div>
@@ -135,6 +134,9 @@
 					</button>
 				</div>
 				<div class="modal-body">
+					<div id="error-alert" class="alert alert-danger fade show in login-alert" role="alert">
+						<span id="error-message"></span>
+					</div>
 					<div class="module form-module">
 						<div>
 							<span class="toggle-title">Registracija</span>
@@ -143,23 +145,21 @@
 							</div>
 						</div>
 						<div class="form">
-							<form th:action="@{/LogIn}" th:object="${korisnik}" th:method="post">
-								<input type="text" th:field="*{email}" placeholder="Email" />
-								<input type="password" th:field="*{sifra}" placeholder="Lozinka" />
-								<button type="submit">Prijavi se</button>
-							</form>
+							<input id="login-email" type="text" placeholder="Email" /> 
+							<input id="login-sifra" type="password" placeholder="Lozinka" />
+							<button id="login-btn">Prijavi se</button>
 						</div>
 						<div class="form">
 							<h2>Regitruj novi nalog</h2>
 							<form th:action="@{/registerKorisnik}" th:object="${korisnik}" th:method="post">
-								<input placeholder="Ime" type="text" th:field="*{ime}">
-								<input placeholder="Prezime" type="text" th:field="*{prezime}">
-								<input type="text" placeholder="Email" th:field="*{email}">
-								<input type="password" placeholder="Lozinka" th:field="*{sifra}">
+								<input placeholder="Ime" type="text" th:field="*{ime}" required="required">
+								<input placeholder="Prezime" type="text" th:field="*{prezime}" required="required">
+								<input type="text" placeholder="Email" th:field="*{email}" required="required">
+								<input type="password" placeholder="Lozinka" th:field="*{sifra}" required="required">
 								<label>Tip naloga:</label>
 								<div class="type">
 									Klijent
-									<input type="radio" value="klijent" th:field="*{tip}" checked>
+									<input type="radio" value="klijent" th:field="*{tip}" checked="checked">
 									Menadžer
 									<input type="radio" value="menadzer" th:field="*{tip}">
 								</div>
@@ -181,7 +181,7 @@
 
 	<!--====== PRINICNG START ======-->
 
-	<section id="portfolio" class="pricing-area ">
+	<section id="search-area" class="pricing-area ">
 		<div class="container">
 			<div class="row justify-content-center">
 				<div class="col-lg-6 col-md-10">
@@ -383,7 +383,32 @@
 				opacity : "toggle"
 			}, "slow");
 		});
-		
+
+		$('#login-btn').click(function() {
+			var _email = $("#login-email").val();
+			var _sifra = $("#login-sifra").val();
+			
+			if(_email == "" || _sifra == ""){
+				$('#error-alert').css("display", "block");
+				$('#error-message').text("Niste popunila sva polja.");
+			}else{
+			
+			$.ajax({
+				url : "/checkLogin",
+				type : "POST",
+				dataType : "text",
+				data: {email: _email, sifra: _sifra},
+				success : function(response) {
+					if(response == "true"){
+						window.location = '';
+					} else {
+						$("#login-sifra").val("");
+						$('#error-alert').css("display", "block");
+						$('#error-message').text("Uneti podaci nisu ispravni.");
+					}
+				}
+			});}
+		});
 		
 	</script>
 

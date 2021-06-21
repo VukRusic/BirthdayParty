@@ -59,6 +59,8 @@
 
 	<!--====== PRELOADER PART ENDS ======-->
 
+	
+
 	<!--====== NAVBAR TWO PART START ======-->
 
 	<section class="navbar-area">
@@ -135,6 +137,7 @@
 
 	<!--====== LOGIN/REGISTRATION MODAL START ======-->
 	
+	
 	<div class="modal fade" id="LoginModal" tabindex="-1" role="dialog">
 		<div class="modal-dialog" role="document">
 			<div class="modal-content">
@@ -145,6 +148,9 @@
 					</button>
 				</div>
 				<div class="modal-body">
+					<div id="error-alert" class="alert alert-danger fade show in login-alert" role="alert">
+						<span id="error-message"></span>
+					</div>
 					<div class="module form-module">
 						<div>
 							<span class="toggle-title">Registracija</span>
@@ -153,23 +159,21 @@
 							</div>
 						</div>
 						<div class="form">
-							<form th:action="@{/LogIn}" th:object="${korisnik}" th:method="post">
-								<input type="text" th:field="*{email}" placeholder="Email" />
-								<input type="password" th:field="*{sifra}" placeholder="Lozinka" />
-								<button type="submit">Prijavi se</button>
-							</form>
+							<input id="login-email" type="text" placeholder="Email" /> 
+							<input id="login-sifra" type="password" placeholder="Lozinka" />
+							<button id="login-btn">Prijavi se</button>
 						</div>
 						<div class="form">
 							<h2>Regitruj novi nalog</h2>
 							<form th:action="@{/registerKorisnik}" th:object="${korisnik}" th:method="post">
-								<input placeholder="Ime" type="text" th:field="*{ime}">
-								<input placeholder="Prezime" type="text" th:field="*{prezime}">
-								<input type="text" placeholder="Email" th:field="*{email}">
-								<input type="password" placeholder="Lozinka" th:field="*{sifra}">
+								<input placeholder="Ime" type="text" th:field="*{ime}" required="required">
+								<input placeholder="Prezime" type="text" th:field="*{prezime}" required="required">
+								<input type="text" placeholder="Email" th:field="*{email}" required="required">
+								<input type="password" placeholder="Lozinka" th:field="*{sifra}" required="required">
 								<label>Tip naloga:</label>
 								<div class="type">
 									Klijent
-									<input type="radio" value="klijent" th:field="*{tip}" checked>
+									<input type="radio" value="klijent" th:field="*{tip}" checked="checked">
 									Menadžer
 									<input type="radio" value="menadzer" th:field="*{tip}">
 								</div>
@@ -236,7 +240,7 @@
 							<div class="col-lg-6">
 								<div class="slider-content">
 									<h1 class="title">Želite da organizujete rođendane</h1>
-									<p class="text">Naša platforma vam omogućava da regitrujete agenciju, kao i rođendanse pakete po vašoj želji.</p>
+									<p class="text">Naša platforma vam omogućava da regitrujete agenciju, kao i rođendanske pakete po vašoj želji.</p>
 								</div>
 							</div>
 						</div>
@@ -278,7 +282,7 @@
 					<div class="single-features mt-40">
 						<div class="features-title-icon d-flex justify-content-between">
 							<h4 class="features-title">
-								<a href="#">Dizajnirajte vašu agenciju</a>
+								<a>Dizajnirajte vašu agenciju</a>
 							</h4>
 							<div class="features-icon">
 								<i class="lni lni-brush"></i>
@@ -296,7 +300,7 @@
 					<div class="single-features mt-40">
 						<div class="features-title-icon d-flex justify-content-between">
 							<h4 class="features-title">
-								<a href="#">Izlistana ponuda</a>
+								<a>Izlistana ponuda</a>
 							</h4>
 							<div class="features-icon">
 								<i class="lni lni-layout"></i>
@@ -314,7 +318,7 @@
 					<div class="single-features mt-40">
 						<div class="features-title-icon d-flex justify-content-between">
 							<h4 class="features-title">
-								<a href="#">Korisnička usluga</a>
+								<a>Korisnička usluga</a>
 							</h4>
 							<div class="features-icon">
 								<i class="lni lni-bolt"></i>
@@ -389,21 +393,6 @@
 	</section>
 
 	<!--====== PRINICNG ENDS ======-->
-
-	<!--====== ABOUT PART START ======-->
-
-	<!-- <section id="about" class="about-area">
-		<div class="section-title text-center pb-10">
-			<h3 class="title">You are using free lite version</h3>
-			<p class="text">Please, purchase full version to get all pages and features</p>
-			<div class="light-rounded-buttons mt-30">
-				<a href="https://rebrand.ly/smash-ud" rel="nofollow" class="main-btn light-rounded-two">Purchase Now</a>
-			</div>
-		</div>
-		section title
-	</section> -->
-
-	<!--====== ABOUT PART ENDS ======-->
 
 	<!--====== CONTACT PART START ======-->
 
@@ -536,6 +525,33 @@
 				'padding-bottom' : 'toggle',
 				opacity : "toggle"
 			}, "slow");
+		});
+		
+		
+		$('#login-btn').click(function() {
+			var _email = $("#login-email").val();
+			var _sifra = $("#login-sifra").val();
+			
+			if(_email == "" || _sifra == ""){
+				$('#error-alert').css("display", "block");
+				$('#error-message').text("Niste popunila sva polja.");
+			}else{
+			
+			$.ajax({
+				url : "/checkLogin",
+				type : "POST",
+				dataType : "text",
+				data: {email: _email, sifra: _sifra},
+				success : function(response) {
+					if(response == "true"){
+						window.location = '';
+					} else {
+						$("#login-sifra").val("");
+						$('#error-alert').css("display", "block");
+						$('#error-message').text("Uneti podaci nisu ispravni.");
+					}
+				}
+			});}
 		});
 	</script>
 
