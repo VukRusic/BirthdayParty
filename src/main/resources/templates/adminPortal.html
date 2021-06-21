@@ -1,0 +1,399 @@
+<html xmlns:th="http://www.thymeleaf.org" class="no-js" lang="en">
+
+<head>
+<meta charset="utf-8">
+
+<!--====== Title ======-->
+<title>Proslave</title>
+
+<meta name="description" content="">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!--====== Favicon Icon ======-->
+<link rel="icon" href="/images/balloons.jpg" type="image/jpg">
+
+<!--====== Magnific Popup CSS ======-->
+<link rel="stylesheet" href="/css/magnific-popup.css">
+
+<!--====== Slick CSS ======-->
+<link rel="stylesheet" href="/css/slick.css">
+
+<!--====== Line Icons CSS ======-->
+<link rel="stylesheet" href="/css/LineIcons.css">
+
+<!--====== Bootstrap CSS ======-->
+<link rel="stylesheet" href="/css/bootstrap.min.css">
+
+<!--====== Default CSS ======-->
+<link rel="stylesheet" href="/css/default.css">
+
+<!--====== Style CSS ======-->
+<link rel="stylesheet" href="/css/style.css">
+
+<!-- ===== Font awesome ===== -->
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css">
+
+</head>
+
+<body>
+
+	<!--====== PRELOADER PART START ======-->
+
+	<div class="preloader">
+		<div class="loader">
+			<div class="ytp-spinner">
+				<div class="ytp-spinner-container">
+					<div class="ytp-spinner-rotator">
+						<div class="ytp-spinner-left">
+							<div class="ytp-spinner-circle"></div>
+						</div>
+						<div class="ytp-spinner-right">
+							<div class="ytp-spinner-circle"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!--====== PRELOADER PART ENDS ======-->
+	
+	<!--====== REGISTER AGENCIJA MODAL START -->
+	
+	<div class="modal fade" id="RegisterAgencijaModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Da li ste sigurni da želite da registrujete izabranu agenciju?</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div></div>
+						<div class="pricing-btn rounded-buttons text-center">
+							<a class="btn btn-danger agencijaId" href="">Da</a>
+							<a class="btn btn-primary" href="" data-dismiss="modal">Ne</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== REGISTER AGENCIJA MODAL ENDS -->
+
+	<!--====== NAVBAR TWO PART START ======-->
+
+	<section class="navbar-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<nav class="navbar navbar-expand-lg">
+
+						<div class="collapse navbar-collapse sub-menu-bar" id="navbarTwo">
+							<ul class="navbar-nav m-auto">
+								<li class="nav-item">
+									<a class="page-scroll" th:href="@{/}">Nazad na početnu</a>
+								</li>
+								<li class="nav-item">
+									<a class="page-scroll" href="#korisnici">Nalozi</a>
+								</li>
+								<li class="nav-item">
+									<a class="page-scroll" href="#agencije">Agencije</a>
+								</li>
+							</ul>
+						</div>
+
+						<div class="navbar-btn d-none d-sm-inline-block">
+							<ul th:if="${session.user == null}">
+								<li>
+									<a type="button" class="solid" data-toggle="modal" data-target="#LoginModal">Prijavi se</a>
+								</li>
+							</ul>
+							<ul th:unless="${session.user == null}">
+								<li>
+									<th:block th:switch="${session.user.tip}">
+										<a th:case="klijent" type="button" class="solid" th:href="@{/showKorisnik}">
+											<i class="far fa-user-circle"></i>
+												poeni:
+											<span th:text="${session.user.poeni}"></span>
+										</a>
+										<a th:case="menadzer" type="button" class="solid" th:href="@{/menadzer}">
+											<i class="far fa-user-circle"></i>
+										</a>
+										<a th:case="admin" type="button" class="solid" th:href="@{/admin}">
+											<i class="far fa-user-circle"></i>
+										</a>
+									</th:block>
+								</li>
+								<li>
+									<form th:action="@{/LogOut}" method="post">
+										<a type="button" class="solid" th:href="@{/LogOut}">Odjavi se</a>
+									</form>
+								</li>
+							</ul>
+						</div>
+					</nav>
+					<!-- navbar -->
+				</div>
+			</div>
+			<!-- row -->
+		</div>
+		<!-- container -->
+	</section>
+
+	<!--====== NAVBAR TWO PART ENDS ======-->
+
+	<!--====== FEATRES TWO PART START ======-->
+
+	<section id="admin-account" class="features-area">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6 col-md-10">
+					<div class="section-title text-center pb-10">
+						<h3 class="title">Administrator</h3>
+						<p class="text"></p>
+					</div>
+					<!-- <div class="alert alert-info" role="alert" th:if="${session.message != null}">
+  						<p th:text="${session.message}"></p>
+					</div> -->
+					<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${session.message != null}">
+						<p th:text="${session.message}"></p>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
+					<!-- row -->
+				</div>
+			</div>
+			<!-- row -->
+			<div class="row justify-content-center">
+				<div class="col-lg-4 col-md-7 col-sm-9 admin-info">
+					<div class="single-features mt-40">
+						<div class="features-title-icon d-flex justify-content-between">
+							<h4 class="features-title">
+								<a> <i class="fas fa-user fa-2x"></i>
+								</a>
+							</h4>
+						</div>
+						<div class="features-content">
+							<div class="form">
+								<form th:action="@{/updateKorisnik}" th:object="${korisnik}" th:method="post" class="update">
+									<input type="hidden" th:field="*{id}" th:value="${korisnik.Id}"> 
+									<label>Ime</label> 
+									<input placeholder="Ime" type="text" th:field="*{ime}"> <br>
+									<label>Prezime</label> 
+									<input placeholder="Prezime" type="text" th:field="*{prezime}"> <br> 
+									<label>Email</label> 
+									<input type="text" placeholder="Email" th:field="*{email}" readonly> <br> 
+									<label>Sifra</label> 
+									<input type="text" placeholder="Lozinka" th:field="*{sifra}"> <br>
+									<label>Tip naloga: </label> <span th:text="${korisnik.tip}"></span> <br>
+									<button type="submit" class="btn btn-primary">Ažuriraj podatke</button>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- single features -->
+				</div>
+				<div class="col-lg-4 col-md-7 col-sm-9">
+					<div id="register-agencija" class="single-features mt-40">
+						<div class="features-title-icon d-flex justify-content-between">
+							<h4 class="features-title">
+								<a>Agencije u procesu registracije:</a>
+							</h4>
+						</div>
+						<div class="features-content">
+							<div th:if="${newAgencije.size() > 0}">
+							<table  class="table table-striped">
+								<thead>
+									<tr>
+										<th>Naziv</th>
+										<th>Lokacija</th>
+										<th>Opis</th>
+										<th>Email</th>
+										<th>Status</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:each="agencija: ${newAgencije}" th:object="${agencija}">
+										<td th:text="${agencija.naziv}"></td>
+										<td th:text="${agencija.lokacija}"></td>
+										<td ><textarea th:text="${agencija.opis}" readonly="readonly"></textarea></td>
+										<td th:text="${agencija.email}"></td>
+										<td><button th:data-id="${agencija.id}" type="button" class="btn btn-primary status-agencije" data-toggle="modal" data-target="#RegisterAgencijaModal" th:text="${agencija.status}"></button></td>
+									</tr>
+								</tbody>
+							</table>
+							<p id="status-help">*klikom na status možete izvršite registraciju agencije.</p>
+							</div>
+							<div th:unless="${newAgencije.size() > 0}">
+								<p>Nema agencija u fazi registracije</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- container -->
+	</section>
+
+	<!--====== FEATRES TWO PART ENDS ======-->
+
+	<!--====== ACCOUNTS START ======-->
+
+	<section id="korisnici" class="about-area admin-accounts">
+		<div class="section-title text-center pb-10">
+			<h3 class="title">Pregled naloga</h3>
+			<p class="text"></p>
+			<div class="row justify-content-center">
+				<div class="table-wrapper-scroll-y my-custom-scrollbar">
+					<table class="table table-bordered table-striped mb-0">
+						<thead>
+							<tr>
+								<th scope="col">Ime</th>
+								<th scope="col">Prezime</th>
+								<th scope="col">Šifra</th>
+								<th scope="col">Email</th>
+								<th class="last-th" scope="col">Tip naloga</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="korisnik: ${korisnici}" th:object="${korisnik}">
+								<th scope="row" th:text="${korisnik.ime}"></th>
+								<td th:text="${korisnik.prezime}"></td>
+								<td th:text="${korisnik.sifra}"></td>
+								<td th:text="${korisnik.email}"></td>
+								<td th:text="${korisnik.tip}"></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!--====== ACCOUNTS ENDS ======-->
+	
+	<!--====== AGENCIJE START ======-->
+	
+	<section id="agencije" class="about-area">
+		<div class="section-title text-center pb-10">
+			<h3 class="title">Pregled agencija</h3>
+			<p class="text">Klikom na naziv agencije možete pristupiti njenom profilu.</p>
+			<div class="row justify-content-center">
+				<div class="table-wrapper-scroll-y my-custom-scrollbar">
+					<table class="table table-bordered table-striped mb-0">
+						<thead>
+							<tr>
+								<th scope="col">Naziv</th>
+								<th scope="col">Lokacija</th>
+								<th scope="col">Telefon</th>
+								<th class="last-th" scope="col">Email</th>
+								<th class="last-i" scope="col"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="agencija: ${agencije}" th:object="${agencija}">
+								<th scope="row"><a class="agencija-link" th:text="${agencija.naziv}" th:href="@{${'/showAgencija/' + agencija.Id}}"></a></th>
+								<td th:text="${agencija.lokacija}"></td>
+								<td th:text="${agencija.telefon}"></td>
+								<td th:text="${agencija.email}"></td>
+								<td><i class="fas fa-pencil-alt"></i></td>
+							</tr>
+						</tbody>
+					</table>
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!--====== AGENCIJE ENDS ======-->
+
+	<!--====== FOOTER PART START ======-->
+
+	<section class="footer-area footer-dark">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-lg-6">
+					<div class="footer-logo text-center">
+						<a class="mt-30" href="/"> <img class="logo" src="/images/balloons.jpg" alt="Logo">
+						</a>
+					</div>
+					<!-- footer logo -->
+					<ul class="social text-center mt-60">
+						<li><a href="https://facebook.com"> <i class="lni lni-facebook-filled"></i>
+						</a></li>
+						<li><a href="https://twitter.com"> <i class="lni lni-twitter-original"></i>
+						</a></li>
+						<li><a href="https://instagram.com"> <i class="lni lni-instagram-original"></i>
+						</a></li>
+						<li><a href="#"> <i class="lni lni-linkedin-original"></i>
+						</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- row -->
+		</div>
+		<!-- container -->
+	</section>
+
+	<!--====== FOOTER PART ENDS ======-->
+
+	<!--====== BACK TOP TOP PART START ======-->
+
+	<a href="#" class="back-to-top">
+		<i class="lni lni-chevron-up"></i>
+	</a>
+
+	<!--====== BACK TOP TOP PART ENDS ======-->
+
+	<!--====== Jquery js ======-->
+	<script src="/js/vendor/jquery-1.12.4.min.js"></script>
+	<script src="/js/vendor/modernizr-3.7.1.min.js"></script>
+
+	<!--====== Bootstrap js ======-->
+	<script src="/js/popper.min.js"></script>
+	<script src="/js/bootstrap.min.js"></script>
+
+	<!--======= Login/Registration =====-->
+	<script>
+		// Toggle Function
+		$('.toggle').click(function() {
+			// Switches the Icon
+			$(this).children('i').toggleClass('fa-pencil');
+			// Switches the forms  
+			$('.form').animate({
+				height : "toggle",
+				'padding-top' : 'toggle',
+				'padding-bottom' : 'toggle',
+				opacity : "toggle"
+			}, "slow");
+		});
+		
+		$('.btn.btn-primary.status-agencije').click(function(){
+			var id = $(this).attr('data-id');
+			$('.btn.btn-danger.agencijaId').attr("href","registerAgencija/" + id);
+		});
+		
+
+	</script>
+
+	<!--====== Isotope js ======-->
+	<script src="/js/imagesloaded.pkgd.min.js"></script>
+	<script src="/js/isotope.pkgd.min.js"></script>
+
+	<!--====== Scrolling Nav js ======-->
+	<script src="/js/jquery.easing.min.js"></script>
+	<script src="/js/scrolling-nav.js"></script>
+
+	<!--====== Main js ======-->
+	<script src="/js/main.js"></script>
+
+</body>
+
+</html>

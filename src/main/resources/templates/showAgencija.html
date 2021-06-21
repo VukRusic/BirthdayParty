@@ -277,7 +277,7 @@
 
 								</ul>
 							</div>
-							<div th:if="${session.user != null && session.user.tip!='menadzer'}">
+							<div th:if="${session.user != null && session.user.tip=='korisnik'}">
 								<div class="pricing-btn rounded-buttons text-center" th:if="${session.user != null}">
 									<button class="main-btn rounded-one reserve" th:data-price="${proslava.cena}" th:data-points="${proslava.poeni}" th:value="${proslava.id}" data-toggle="modal" data-target="#ReservationModal">Rezerviši</button>
 								</div>

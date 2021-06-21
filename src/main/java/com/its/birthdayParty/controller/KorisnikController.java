@@ -67,6 +67,8 @@ public class KorisnikController {
 		
 		if(user.getTip().equals("menadzer")) {
 			return "redirect:/menadzer";
+		} else if(user.getTip().equals("admin")) {
+			return "redirect:/admin";
 		}
 		
 		return "redirect:/showKorisnik";

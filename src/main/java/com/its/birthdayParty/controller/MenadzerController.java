@@ -130,7 +130,7 @@ public class MenadzerController {
 	private String createAgencija(@ModelAttribute("agencija") Agencija agencija,
 			@RequestParam("image") MultipartFile multipartFileImg,
 			@RequestParam("main") MultipartFile multipartFileBack,
-			@RequestParam("menadzer") Integer menadzer) throws IOException {
+			@RequestParam("menadzer") Integer menadzer, HttpServletRequest request) throws IOException {
 		
 		String agencijaDir = agencija.getNaziv();
 		
@@ -156,6 +156,9 @@ public class MenadzerController {
 		
 		agencija.setMenadzer(menadzer);
 		
+		request.getSession().setAttribute("message", "Vaša agencija je u fazi provere, naš tim će ubrzo "
+				+ "obaviti registraciju i učiniti je dostupnu korisnicima. Za sve dodatne informacije "
+				+ "kontaktirajte nas.");
 		agencijaService.createAgencija(agencija);
 
 		return "redirect:/menadzer";

@@ -64,6 +64,19 @@ public class AgencijaServiceImpl implements AgencijaService{
 
 	@Override
 	public void createAgencija(Agencija agencija) {
+		agencija.setStatus("u procesu registracije");
+		this.agencijaRepository.save(agencija);
+	}
+
+	@Override
+	public List<Agencija> getNewAgencijas() {
+		return agencijaRepository.getNewAgencijas();
+	}
+
+	@Override
+	public void registerAgencija(Integer id) {
+		Agencija agencija = agencijaRepository.getOne(id);
+		agencija.setStatus("neistaknuta");
 		this.agencijaRepository.save(agencija);
 	}
 

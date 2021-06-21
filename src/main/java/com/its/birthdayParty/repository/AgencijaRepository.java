@@ -1,5 +1,7 @@
 package com.its.birthdayParty.repository;
 
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -17,5 +19,8 @@ public interface AgencijaRepository extends JpaRepository<Agencija, Integer>{
 	
 	@Query(value = "Select * from agencija a where a.menadzer=?1", nativeQuery = true)
 	Agencija getAgencijaByMenadzerId(Integer id);
+	
+	@Query(value = "Select * from agencija a where a.status='u procesu registracije'", nativeQuery = true)
+	List<Agencija> getNewAgencijas();
 	
 }
