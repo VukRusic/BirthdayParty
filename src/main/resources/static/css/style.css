@@ -310,6 +310,8 @@ p {
 	 border: 0;
 	 padding: 10px 15px;
 	 color: #fff;
+	 font-family: "Poppins", sans-serif;
+     font-weight: 600;
 }
  .form-module button:hover {
 	 background: #178ab4;
@@ -2670,9 +2672,10 @@ p {
           .navbar-area .navbar .navbar-btn li a.light:hover {
             background-color: rgba(255, 255, 255, 0.4); }
         .navbar-area .navbar .navbar-btn li a.solid {
-          background-color: #fff;
-          border-color: #fff;
-          color: #0067f4; }
+          background-color: #405fc9;
+   		  border-color: #3f60d1;
+    	  color: #fff;
+    	  opacity: 1; }
           .navbar-area .navbar .navbar-btn li a.solid:hover {
             background-color: transparent;
             color: #fff; }
@@ -2699,9 +2702,9 @@ p {
       border-color: #0067f4;
       color: #0067f4; }
     .navbar-area.sticky .navbar .navbar-btn li a.solid {
-      border-color: #0067f4;
-      background-color: #0067f4;
-      color: #fff; }
+      border-color: #8e18ed;
+	  background-color: #891be3;
+      color: white; }
 #navbar-proslave{
 	float: right;	
 }
@@ -2896,7 +2899,8 @@ p {
 .single-features {
   padding: 40px 20px 52px;
   background-color: #fff;
-  width: 350px; }
+  width: 350px;
+  min-height: 340px; }
   .single-features .features-title-icon .features-title a {
     font-size: 36px;
     line-height: 45px;
@@ -2927,7 +2931,7 @@ p {
     .single-features .features-title-icon .features-icon i {
       font-size: 88px;
       line-height: 70px;
-      color: #0067f4;
+      color: #405fc9;
       position: relative;
       z-index: 5; }
     .single-features .features-title-icon .features-icon .shape {
@@ -2970,6 +2974,26 @@ p {
 
 .reservation{
 	max-width:380px;
+}
+
+.btn-primary,.light-rounded-buttons .light-rounded-two{
+	background-color: #27cfcf;
+    border-color: #26d4d4;
+}
+
+.light-rounded-buttons .light-rounded-two:hover {
+    color: #1babab;
+    background-color: transparent;
+}
+
+.btn-primary:hover {
+    color: #fff;
+    background-color: #1ba1a1;
+    border-color: #1fb5b5;
+}
+
+.btn{
+	font-weight: 600;
 }
 
 /*===========================
@@ -3157,7 +3181,8 @@ p {
       background-color: #fff;
       border-color: #fff; }
       .pricing-style .pricing-btn .main-btn:hover {
-        color: #0067f4;
+        background: transparent;
+  		color: white;
         -webkit-box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.16);
         -moz-box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.16);
         box-shadow: 0 3px 16px 0 rgba(0, 0, 0, 0.16); }
@@ -3229,6 +3254,12 @@ p {
     -ms-flex-pack: center!important;
     justify-content: center!important;
     padding-left: 45px;
+}
+
+.justify-content-between {
+    -ms-flex-pack: justify!important;
+    justify-content: space-between!important;
+    min-height: 133px;
 }
 
 /*===========================
