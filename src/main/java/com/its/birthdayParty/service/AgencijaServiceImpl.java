@@ -64,7 +64,8 @@ public class AgencijaServiceImpl implements AgencijaService{
 
 	@Override
 	public void createAgencija(Agencija agencija) {
-		agencija.setStatus("u procesu registracije");
+		agencija.setStatus("U procesu registracije");
+		agencija.setPoruka("");
 		this.agencijaRepository.save(agencija);
 	}
 
@@ -76,7 +77,8 @@ public class AgencijaServiceImpl implements AgencijaService{
 	@Override
 	public void registerAgencija(Integer id) {
 		Agencija agencija = agencijaRepository.getOne(id);
-		agencija.setStatus("neistaknuta");
+		agencija.setStatus("Neistaknuta");
+		agencija.setPoruka("");
 		this.agencijaRepository.save(agencija);
 	}
 
@@ -88,6 +90,20 @@ public class AgencijaServiceImpl implements AgencijaService{
 	@Override
 	public List<Agencija> getAgencijeByNaziv(String naziv) {
 		return agencijaRepository.getAgencijeByNaziv(naziv);
+	}
+
+	@Override
+	public void changeStatus(String status, String poruka, Integer id) {
+		if(!status.equals("U procesu registracije")) {
+			
+			this.agencijaRepository.changeStatus(status, " ", id);
+		} else {
+			poruka += " Iz tog razloga vaša agencija nije izlistana trenutno u našoj ponudi. Molimo Vas da "
+					+ "unesete tražene izmene, za sve dodatne informacije kontaktirajte nas.";
+			
+			this.agencijaRepository.changeStatus(status, poruka, id);
+		}
+		
 	}
 
 }

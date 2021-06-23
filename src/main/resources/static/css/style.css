@@ -24,7 +24,8 @@ body {
   font-family: "Poppins", sans-serif;
   font-weight: normal;
   font-style: normal;
-  color: #121212; }
+  color: #121212; 
+  overflow-x: hidden; }
 
 * {
   margin: 0;
@@ -446,6 +447,10 @@ p {
 .update button{
 	margin-top: 25px;
 	font-weight: 600;
+}
+
+.link-status{
+	cursor: pointer;
 }
 
 #updateProslava{

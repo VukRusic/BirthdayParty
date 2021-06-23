@@ -10,6 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.its.birthdayParty.model.Agencija;
 import com.its.birthdayParty.model.Korisnik;
@@ -43,6 +45,15 @@ public class AdminController {
 	@GetMapping("/registerAgencija/{id}")
 	public String registerAgencija(@PathVariable Integer id) {
 		agencijaService.registerAgencija(id);
+		
+		return "redirect:/admin";
+	}
+	
+	@PostMapping("/changeAgencijaStatus")
+	public String changeAgencijaStatus(@RequestParam Integer id, @RequestParam String status, 
+			@RequestParam String poruka) {
+
+		agencijaService.changeStatus(status, poruka, id);
 		
 		return "redirect:/admin";
 	}

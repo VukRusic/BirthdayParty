@@ -3,8 +3,10 @@ package com.its.birthdayParty.repository;
 import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.its.birthdayParty.model.Agencija;
 
@@ -28,5 +30,10 @@ public interface AgencijaRepository extends JpaRepository<Agencija, Integer>{
 	
 	@Query(value = "Select distinct lokacija from agencija", nativeQuery = true)
 	List<String> getLokacije();
+	
+	@Transactional
+	@Modifying
+	@Query(value = "update agencija a set a.status=?1, a.poruka=?2 where a.id=?3", nativeQuery = true)
+	void changeStatus(String status, String poruka, Integer id);
 	
 }

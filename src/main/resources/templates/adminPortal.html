@@ -71,7 +71,6 @@
 				</div>
 				<div class="modal-body">
 					<div class="module form-module">
-						<div></div>
 						<div class="pricing-btn rounded-buttons text-center">
 							<a class="btn btn-danger agencijaId" href="">Da</a>
 							<a class="btn btn-primary" href="" data-dismiss="modal">Ne</a>
@@ -145,6 +144,45 @@
 	</section>
 
 	<!--====== NAVBAR TWO PART ENDS ======-->
+	
+	<!--====== STATUS MODAL START ====== -->
+	
+	<div class="modal fade" id="AgencijaStatusModal" tabindex="-1" role="dialog">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5>Status agencije</h5>
+					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+				<div class="modal-body">
+					<div class="module form-module">
+						<div></div>
+						<div class="form">
+							<form id="statusForm" th:action="@{/changeAgencijaStatus}" th:method="post">
+								<input type="hidden" th:name="id" id="agencijaId" value="">
+								<h5>Promeni status agencije</h5><br>
+								<select id="statusSelect" th:name="status" class="custom-select custom-select-lg mb-3" aria-label="Default select example">
+									<option value="U procesu registracije">U procesu registracije</option>
+									<option value="Istaknuta">Istaknuta</option>
+									<option value="Neistaknuta">Neistaknuta</option>
+								</select>
+								<div class="message">
+									<label>Razlog promene statusa</label>
+									<textarea id="status-message" cols="45" rows="3" name="poruka"></textarea>
+								</div>
+								<input type="submit" value="Sačuvaj">
+							</form>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<!--====== STATUS MODAL ENDS ====== -->
 
 	<!--====== FEATRES TWO PART START ======-->
 
@@ -155,15 +193,6 @@
 					<div class="section-title text-center pb-10">
 						<h3 class="title">Administrator</h3>
 						<p class="text"></p>
-					</div>
-					<!-- <div class="alert alert-info" role="alert" th:if="${session.message != null}">
-  						<p th:text="${session.message}"></p>
-					</div> -->
-					<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${session.message != null}">
-						<p th:text="${session.message}"></p>
-						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
-							<span aria-hidden="true">&times;</span>
-						</button>
 					</div>
 					<!-- row -->
 				</div>
@@ -207,27 +236,28 @@
 						</div>
 						<div class="features-content">
 							<div th:if="${newAgencije.size() > 0}">
-							<table  class="table table-striped">
-								<thead>
-									<tr>
-										<th>Naziv</th>
-										<th>Lokacija</th>
-										<th>Opis</th>
-										<th>Email</th>
-										<th>Status</th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr th:each="agencija: ${newAgencije}" th:object="${agencija}">
-										<td th:text="${agencija.naziv}"></td>
-										<td th:text="${agencija.lokacija}"></td>
-										<td ><textarea th:text="${agencija.opis}" readonly="readonly"></textarea></td>
-										<td th:text="${agencija.email}"></td>
-										<td><button th:data-id="${agencija.id}" type="button" class="btn btn-primary status-agencije" data-toggle="modal" data-target="#RegisterAgencijaModal" th:text="${agencija.status}"></button></td>
-									</tr>
-								</tbody>
-							</table>
-							<p id="status-help">*klikom na status možete izvršite registraciju agencije.</p>
+								<table class="table table-striped">
+									<thead>
+										<tr>
+											<th>Naziv</th>
+											<th>Lokacija</th>
+											<th>Opis</th>
+											<th>Email</th>
+											<th>Status</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr th:each="agencija: ${newAgencije}" th:object="${agencija}">
+											<td th:text="${agencija.naziv}"></td>
+											<td th:text="${agencija.lokacija}"></td>
+											<td><textarea th:text="${agencija.opis}" readonly="readonly"></textarea></td>
+											<td th:text="${agencija.email}"></td>
+											<td><button th:data-id="${agencija.id}" type="button" class="btn btn-primary status-agencije" data-toggle="modal" data-target="#RegisterAgencijaModal"
+													th:text="${agencija.status}"></button></td>
+										</tr>
+									</tbody>
+								</table>
+								<p id="status-help">*klikom na status možete izvršite registraciju agencije.</p>
 							</div>
 							<div th:unless="${newAgencije.size() > 0}">
 								<p>Nema agencija u fazi registracije</p>
@@ -302,7 +332,7 @@
 								<td th:text="${agencija.lokacija}"></td>
 								<td th:text="${agencija.telefon}"></td>
 								<td th:text="${agencija.email}"></td>
-								<td><i class="fas fa-pencil-alt"></i></td>
+								<td><a class="link-status" data-toggle="modal" th:data-id="${agencija.id}" th:data-message="${agencija.poruka}" th:data-status="${agencija.status}" data-target="#AgencijaStatusModal"><i class="fas fa-pencil-alt"></i></a></td>
 							</tr>
 						</tbody>
 					</table>
@@ -346,9 +376,6 @@
 
 	<!--====== BACK TOP TOP PART START ======-->
 
-	<a href="#" class="back-to-top">
-		<i class="lni lni-chevron-up"></i>
-	</a>
 
 	<!--====== BACK TOP TOP PART ENDS ======-->
 
@@ -380,6 +407,29 @@
 			$('.btn.btn-danger.agencijaId').attr("href","registerAgencija/" + id);
 		});
 		
+		$('.link-status').click(function(){
+			$('#statusForm')[0].reset();
+			var message = $(this).attr('data-message');
+			var agencijaId = $(this).attr('data-id');
+			var status = $(this).attr('data-status');
+			
+			if(status == "U procesu registracije"){
+				$('.message').css("display", "grid");
+			} else {
+				$('.message').css("display", "none");
+			}
+			$('#statusSelect').val(status).change();
+			$('#agencijaId').val(agencijaId);
+			$('#status-message').text(message);
+		});
+		
+		$('#statusSelect').click(function(){
+			if ($(this).val() == "U procesu registracije") {
+				$('.message').css("display", "grid");
+			} else {
+				$('.message').css("display", "none");
+			}
+		});
 
 	</script>
 

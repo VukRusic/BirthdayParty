@@ -42,11 +42,23 @@ public class Agencija {
 	@Column(name = "status")
 	private String status;
 	
+	@Column(name = "poruka")
+	private String poruka;
+	
 	@Column(name = "telefon")
 	private String telefon;
 	
 	@Column(name = "email")
 	private String email;
+
+	
+	public String getPoruka() {
+		return poruka;
+	}
+
+	public void setPoruka(String poruka) {
+		this.poruka = poruka;
+	}
 
 	public String getTelefon() {
 		return telefon;

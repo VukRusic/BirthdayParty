@@ -293,9 +293,6 @@
 						<h3 class="title">Vaš nalog</h3>
 						<p class="text">Sve informacije o ovam nalogu, kao i rezervacijama vaše agencije možete da pronađete ovde.</p>
 					</div>
-					<!-- <div class="alert alert-info" role="alert" th:if="${session.message != null}">
-  						<p th:text="${session.message}"></p>
-					</div> -->
 					<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${session.message != null}">
 						<p th:text="${session.message}"></p>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -392,7 +389,12 @@
 						<p th:if="${agencija != null}" class="text">Ovde se nalazi profil vaše agencije. Klikom na dugme prikaz možete da vidite kako izgleda stranica agencije namenjena za klijente.</p>
 						<p th:unless="${agencija != null}" class="text">Nemate još uvek registrovanu agenciju.</p>
 					</div>
-					<!-- section title -->
+					<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${agencija.poruka != ''}">
+						<p th:text="${agencija.poruka}"></p>
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+							<span aria-hidden="true">&times;</span>
+						</button>
+					</div>
 				</div>
 			</div>
 			<div th:if="${agencija.Id == 0}" class="row justify-content-center">

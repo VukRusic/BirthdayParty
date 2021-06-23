@@ -17,4 +17,5 @@ public interface AgencijaService {
 	void update(Agencija agencija);
 	void createAgencija(Agencija agencija);
 	void registerAgencija(Integer id);
+	void changeStatus(String status, String poruka, Integer id);
 }
