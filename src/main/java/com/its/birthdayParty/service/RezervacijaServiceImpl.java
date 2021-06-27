@@ -26,6 +26,8 @@ public class RezervacijaServiceImpl implements RezervacijaService{
 
 	@Override
 	public void makeReservation(Rezervacija rezervacija) {
+		rezervacija.setStatus("U procesu provere");
+		rezervacija.setPoruka("Vaša rezervacija je u procesu provere, ubrzo ćete dobiti odgovor. Hvala na strpljenju!");
 		this.rezervacijaRepository.save(rezervacija);
 	}
 

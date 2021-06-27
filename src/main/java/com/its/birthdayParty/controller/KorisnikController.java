@@ -115,7 +115,6 @@ public class KorisnikController {
 	public String makeReservation(@ModelAttribute("rezervacija") Rezervacija rezervacija, HttpServletRequest request) {
 		Korisnik user = (Korisnik) request.getSession().getAttribute("user");
 		rezervacija.setKorisnik_id(user.getId());
-		rezervacija.setStatus("U procesu provere");
 		
 		rezervacijaService.makeReservation(rezervacija);
 		request.getSession().setAttribute("message", "Rezervacija je uspešno prosleđena i čeka dalje odobrenje od agencije. "

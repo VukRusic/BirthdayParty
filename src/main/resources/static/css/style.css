@@ -145,6 +145,10 @@ p {
 	width: 60px;
 }
 
+#show-user{
+	padding: 0px;
+}
+
 #show-all{
 	color: white;
 }
