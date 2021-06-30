@@ -389,7 +389,7 @@
 						<p th:if="${agencija != null}" class="text">Ovde se nalazi profil vaše agencije. Klikom na dugme prikaz možete da vidite kako izgleda stranica agencije namenjena za klijente.</p>
 						<p th:unless="${agencija != null}" class="text">Nemate još uvek kreiranu agenciju.</p>
 					</div>
-					<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${agencija.poruka != null && agencija.poruka != ''}">
+					<div class="alert alert-info alert-dismissible fade show" role="alert" th:if="${agencija.poruka != null && agencija.poruka != ' '}">
 						<p th:text="${agencija.poruka}"></p>
 						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
 							<span aria-hidden="true">&times;</span>
